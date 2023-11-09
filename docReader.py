@@ -7,9 +7,11 @@ def read_docx(file):
     header = [hr.text.strip() for hr in section.header.paragraphs if hr.text.strip()] 
     text = [para.text.strip() for para in doc.paragraphs if para.text.strip()]
 
-    data = json.dumps({'header': header, 'text': text})
+    data = json.dumps({'text': '\n'.join(header + text)})
     return data
     
+def write_docx(file, data):
+    pass
 
 if __name__ == '__main__':
     #print(read_docx('./resume/resume.docx'))   
