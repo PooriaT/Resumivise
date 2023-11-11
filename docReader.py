@@ -11,7 +11,12 @@ def read_docx(file):
     return data
     
 def write_docx(file, data):
-    pass
+    doc = Document()
+
+    doc.add_heading('JSON Data', level=1)
+    doc.add_paragraph(json.dumps(data, indent=4))
+
+    doc.save(file)
 
 if __name__ == '__main__':
     #print(read_docx('./resume/resume.docx'))   
