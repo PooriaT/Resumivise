@@ -26,14 +26,20 @@ if __name__ == '__main__':
     with open('./resume/job_description.txt') as file:
         job_description_data = file.read()
     
-    compared_data = gptClinet.compare_resume_with_job_description(extracted_resume_data, job_description_data)
+    compared_data_stream = gptClinet.compare_resume_with_job_description(extracted_resume_data, job_description_data)
     print("****************************************************")
     print("Compared Data")
     print("****************************************************")
-    print(compared_data)
+    for part in compared_data_stream:
+        print(part.choices[0].delta.content or "", end='')
     print("\n")
-    tailored_resume_data = gptClinet.align_resume_info_with_job_description(extracted_resume_data, job_description_data)
+
+    tailored_resume_data_stream = gptClinet.align_resume_info_with_job_description(extracted_resume_data, job_description_data)
     print("****************************************************")
     print("Tailored Resume")
     print("****************************************************")
-    print(tailored_resume_data)
+    tailored_resume_data = ''
+    for part in tailored_resume_data_stream:
+        print(part.choices[0].delta.content or "", end='')
+        tailored_resume_data += part.choices[0].delta.content or ""
+    print("\n")

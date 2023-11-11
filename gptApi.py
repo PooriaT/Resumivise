@@ -52,9 +52,10 @@ class GptApi:
                 }
             ],
             model="gpt-3.5-turbo-16k",
+            stream=True, # Enable streaming. PAY ATTENTION TO THE RETURN VALUE
         )
       
-        return response.choices[0].message.content
+        return response#.choices[0].message.content
 
     def align_resume_info_with_job_description(self, extracted_resume_data, job_description_data):
         response =  self.client.chat.completions.create(
@@ -70,17 +71,18 @@ class GptApi:
                         I supply you with a job description. I need you go through all the information and 
                         tailor the resume based on the Job description. Let's do it step by step. I want you to 
                         revise all parts of the resume including summary, skills, Professional experience, projects, 
-                        education and certifications if applicable. Then only print out the JSON format of all new information 
-                        for the resume. The format has to be same as what I provided for you in the extracted data from the 
+                        and certifications. Then only print out the JSON format of all new information for the resume. 
+                        The format has to be same as what I provided for you in the extracted data from the 
                         main version of resume. I only need the JSON no more text has to be provided. \n\n The resume 
                         infomration is as follows in JSON format: \n\n {extracted_resume_data}. \n\n You can find 
                         the job descirpiton here: \n\n {job_description_data}"""
                 }
             ],
             model="gpt-3.5-turbo-16k",
+            stream=True, # Enable streaming. PAY ATTENTION TO THE RETURN VALUE
         )
       
-        return response.choices[0].message.content
+        return response#.choices[0].message.content
 
 
 if __name__ == "__main__":
