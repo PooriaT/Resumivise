@@ -6,7 +6,7 @@ from gptApi import GptApi
 
 
 def reading_data():
-    file_path = './resume/resume.pdf'
+    file_path = './resume/resume.docx'
     file_extension = os.path.splitext(file_path)[1].lower()
 
     if file_extension == '.pdf':

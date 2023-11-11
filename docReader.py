@@ -10,6 +10,7 @@ def read_docx(file):
     data = json.dumps({'text': '\n'.join(header + text)})
     return data
     
+# NEED TO BE REVISED
 def write_docx(file, data):
     doc = Document()
 
