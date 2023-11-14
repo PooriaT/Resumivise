@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "http://localhost:8000/revise"
+url = "http://localhost:8000/compare"
 
 with requests.get(url, stream=True) as r:
     for chunk in r.iter_content(None, decode_unicode=True):

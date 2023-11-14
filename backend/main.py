@@ -2,7 +2,7 @@ import os
 import json
 from utils.docReader import read_docx, write_docx
 from utils.pdfReader import read_pdf
-from utils.api.gptApi import GptApi
+from api.gptApi import GptApi
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 import uvicorn
