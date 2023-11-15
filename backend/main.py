@@ -5,9 +5,21 @@ from utils.pdfReader import read_pdf
 from api.gptApi import GptApi
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI()
+
+# Allow all origins in development. Adjust as needed for production.
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def reading_data():
     file_path = './static/resume/resume.docx'
@@ -24,13 +36,14 @@ def reading_data():
 
 @app.get("/compare")
 async def index():
+    print("HELLO")
     data = reading_data()   
     gptClinet = GptApi()
     extracted_resume_data = gptClinet.extract_info_from_resume(data['text'])
 
     with open('./static/resume/job_description.txt') as file:
         job_description_data = file.read()
-    
+    print("Second HELLO")
     compared_data_stream = gptClinet.compare_resume_with_job_description(
         extracted_resume_data, 
         job_description_data
