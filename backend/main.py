@@ -49,8 +49,9 @@ async def index():
         job_description_data
         )
 
-    return StreamingResponse(compared_data_stream,
-                               media_type='text/event-stream')
+    # return StreamingResponse(compared_data_stream,
+    #                            media_type='text/event-stream') # This for Streaming
+    return json.dumps(compared_data_stream)
 
 
 
@@ -68,8 +69,9 @@ async def index():
         job_description_data
         )
     
-    return StreamingResponse(tailored_resume_data_stream,
-                               media_type='text/event-stream')
+    # return StreamingResponse(tailored_resume_data_stream,
+    #                            media_type='text/event-stream') # This for Streaming
+    return json.dumps(tailored_resume_data_stream)
 
     
 
