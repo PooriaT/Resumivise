@@ -34,16 +34,42 @@ def reading_data():
     return data
 
 
-@app.get("/compare")
-async def index():
-    print("HELLO")
-    data = reading_data()   
+@app.get("/upload_resume")
+async def upload_resume():
+    print("UPLOAD")
+    data = reading_data()
     gptClinet = GptApi()
     extracted_resume_data = gptClinet.extract_info_from_resume(data['text'])
 
+    print("EXTRACTING is finished")
+    
+    try:
+        extracted_resume_data = json.loads(extracted_resume_data)
+
+        # Write JSON data to a text file
+        with open('./static/resume/extracted_resume.json', 'w') as file:
+            json.dump(extracted_resume_data, file)
+
+        print('JSON data has been successfully written to extracted_resume.json.')
+
+    except json.JSONDecodeError as e:
+        print(f'Error decoding JSON: {e}')
+    except Exception as e:
+        print(f'Error: {e}')
+
+    return {'text': 'successfully uploaded'}
+
+@app.get("/compare_resume")
+async def compare_resume():
+    print("COMPARE")  
+    gptClinet = GptApi()
+
+    with open('./static/resume/extracted_resume.json') as file:
+        extracted_resume_data = file.read()
+
     with open('./static/resume/job_description.txt') as file:
         job_description_data = file.read()
-    print("Second HELLO")
+
     compared_data_stream = gptClinet.compare_resume_with_job_description(
         extracted_resume_data, 
         job_description_data
@@ -55,11 +81,13 @@ async def index():
 
 
 
-@app.get("/revise")
-async def index():
-    data = reading_data()   
+@app.get("/revise_resume")
+async def revise_resume():
+    print("REVISE") 
     gptClinet = GptApi()
-    extracted_resume_data = gptClinet.extract_info_from_resume(data['text'])
+
+    with open('./static/resume/extracted_resume.json') as file:
+        extracted_resume_data = file.read()
 
     with open('./static/resume/job_description.txt') as file:
         job_description_data = file.read()
