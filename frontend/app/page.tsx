@@ -12,7 +12,7 @@ export default function Home() {
     if (!hasEffectRun.current) {
       const fetchDataFromApi = async () => {
         try {
-          const response: AxiosResponse = await getFastApiData('compare');
+          const response: AxiosResponse = await getFastApiData('compare_resume');
           setApiData(response.data);
         } catch (error) {
           console.error('API Error:', error);

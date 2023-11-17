@@ -73,10 +73,9 @@ class GptApi:
                         tailor the resume based on the Job description. Let's do it step by step. I want you to 
                         revise all parts of the resume including summary, skills, Professional experience, projects, 
                         and certifications. Then only print out the JSON format of all new information for the resume. 
-                        The format has to be same as what I provided for you in the extracted data from the 
-                        main version of resume. I only need the JSON no more text has to be provided. \n\n The resume 
-                        infomration is as follows in JSON format: \n\n {extracted_resume_data}. \n\n You can find 
-                        the job descirpiton here: \n\n {job_description_data}"""
+                        The format has to be same as what I provided for you in the extracted data from the main version 
+                        of resume. Return the output in the JSON format. \n\n The resume infomration is as follows in JSON format: 
+                        \n\n {extracted_resume_data}. \n\n You can find job descirpiton here: \n\n {job_description_data}"""
                 }
             ],
             model="gpt-3.5-turbo-16k",
