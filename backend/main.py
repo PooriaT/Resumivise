@@ -71,7 +71,7 @@ def process_upload():
     except Exception as e:
         print(f'Error: {e}')
 
-async def process_compare():
+def process_compare():
     print("COMPARE")
     gptClient = get_gpt_client()
 
@@ -86,7 +86,7 @@ async def process_compare():
         job_description_data
         )
 
-async def process_revise():
+def process_revise():
     print("REVISE")
     gptClient = get_gpt_client()
 
@@ -102,16 +102,15 @@ async def process_revise():
         )
 
 
-
 @app.get("/upload_resume")
-async def upload_resume():
-    await process_upload()
+def upload_resume():
+    process_upload()
     return {'text': 'successfully uploaded'}
 
 
 @app.get("/compare_resume")
-async def compare_resume():
-    compared_data_stream = await process_compare()
+def compare_resume():
+    compared_data_stream = process_compare()
 
     # return StreamingResponse(compared_data_stream,
     #                            media_type='text/event-stream') # This for Streaming
@@ -119,8 +118,8 @@ async def compare_resume():
 
 
 @app.get("/revise_resume")
-async def revise_resume():
-    tailored_resume_data_stream = await process_revise()
+def revise_resume():
+    tailored_resume_data_stream = process_revise()
     
     # return StreamingResponse(tailored_resume_data_stream,
     #                            media_type='text/event-stream') # This for Streaming
@@ -128,4 +127,4 @@ async def revise_resume():
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run('main:app', host="0.0.0.0", port=8000, workers=4)
