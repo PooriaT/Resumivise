@@ -25,7 +25,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="container mx-auto mt-8 flex-grow">
       <h1 className="text-4xl font-bold mb-4 text-center">Welcome To RESUMIVISE!</h1>
       <p>Welcome to the Home Page!</p>
       {apiData && (
