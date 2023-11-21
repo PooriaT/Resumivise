@@ -27,12 +27,27 @@ export default function Home() {
   return (
     <div className="container mx-auto mt-8 flex-grow">
       <h1 className="text-4xl font-bold mb-4 text-center">Welcome To RESUMIVISE!</h1>
-      <p>Welcome to the Home Page!</p>
+      <p className='container mx-auto px-4 pb-6'>
+        Upload your Resume in DOCX or PDF format:  &nbsp;&nbsp;
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Browse
+        </button>
+      </p>
+      
       {apiData && (
-        <div className='container mx-auto px-4'>
-          <h2>Data from API:</h2>
-          <div className='box-content border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
-            <p className='px-4 font-mono text-black'>{apiData}</p>
+        <div className='container mx-auto px-4 py-4'>
+          <h2 className="px-2 pb-2">Here is the comparison of your resume with Job Description:</h2>
+          <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
+            <p className='px-4 py-4 font-mono text-black'>{apiData}</p>
+          </div>
+        </div>
+      )}
+
+      {apiData && (
+        <div className='container mx-auto px-4 py-4'>
+          <h2 className="px-2 pb-2">Here is the your tailored resume based on the Job Description:</h2>
+          <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
+            <p className='px-4 py-4 font-mono text-black'>{apiData}</p>
           </div>
         </div>
       )}
