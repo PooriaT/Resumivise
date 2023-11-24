@@ -13,3 +13,12 @@ function axiosConfig(): AxiosInstance {
     const response: AxiosResponse = await axiosConfig().get(`/${para}`);
     return response;
   }
+
+  export async function postFastApiFile(para: string, data: FormData): Promise<AxiosResponse> {
+    const response: AxiosResponse = await axiosConfig().post(`/${para}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response;
+  }

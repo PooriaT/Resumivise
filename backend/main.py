@@ -3,7 +3,7 @@ import json
 from utils.docReader import read_docx, write_docx
 from utils.pdfReader import read_pdf
 from api.gptApi import GptApi
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -37,10 +37,9 @@ def get_gpt_client():
 
 
 
-def reading_data():
-    file_path = './static/resume/resume.docx'
+def reading_data(file_path):
     file_extension = os.path.splitext(file_path)[1].lower()
-
+    print(file_path)
     if file_extension == '.pdf':
         data = json.loads(read_pdf(file_path))
     elif file_extension == '.docx':
@@ -49,27 +48,36 @@ def reading_data():
         raise HTTPException(status_code=400, detail='File type not supported')
     return data
 
-def process_upload():
+def process_upload(filename, file_content):
     print("UPLOAD")
-    data = reading_data()
-    gptClient = get_gpt_client()
-    extracted_resume_data = gptClient.extract_info_from_resume(data['text'])
+    print(filename)
+    file_extension = filename.split('.')[1].lower()
+    if file_extension in ['docx', 'pdf']:
+        with open('./static/resume/uploaded_resume' + file_extension, 'wb') as f:
+            f.write(file_content.read())
+        data = reading_data('./static/resume/uploaded_resume.docx')
+        gptClient = get_gpt_client()
+        extracted_resume_data = gptClient.extract_info_from_resume(data['text'])
 
-    print("EXTRACTING is finished")
-    
-    try:
-        extracted_resume_data = json.loads(extracted_resume_data)
+        print("EXTRACTING is finished")
+        
+        try:
+            extracted_resume_data = json.loads(extracted_resume_data)
 
-        # Write JSON data to a text file
-        with open('./static/resume/extracted_resume.json', 'w') as file:
-            json.dump(extracted_resume_data, file)
+            # Write JSON data to a text file
+            with open('./static/resume/extracted_resume.json', 'w') as file:
+                json.dump(extracted_resume_data, file)
 
-        print('JSON data has been successfully written to extracted_resume.json.')
+            print('JSON data has been successfully written to extracted_resume.json.')
 
-    except json.JSONDecodeError as e:
-        print(f'Error decoding JSON: {e}')
-    except Exception as e:
-        print(f'Error: {e}')
+        except json.JSONDecodeError as e:
+            print(f'Error decoding JSON: {e}')
+        except Exception as e:
+            print(f'Error: {e}')
+
+        return 'successfully uploaded'
+    else:
+        return 'Failed to upload'
 
 def process_compare():
     print("COMPARE")
@@ -102,11 +110,13 @@ def process_revise():
         )
 
 
-@app.get("/upload_resume")
-def upload_resume():
-    process_upload()
-    return {'text': 'successfully uploaded'}
-
+@app.post("/upload_resume")
+def upload_resume(resume: UploadFile = File(...)):
+    try:
+        result = process_upload(resume.filename, resume.file)
+        return json.dumps({'text': result})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
 @app.get("/compare_resume")
 def compare_resume():
