@@ -1,21 +1,42 @@
 // app/page.tsx
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
-import { getFastApiData } from '@/src/utils/fastapiCall';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { getFastApiData, postFastApiFile } from '@/src/utils/fastapiCall';
 import { AxiosResponse }  from 'axios';
 
 export default function Home() {
+  const [uploadData, setuploadData] = useState<string | null>(null);
   const [compareData, setCompareData] = useState<string | null>(null);
   const [reviseData, setReviseData] = useState<string | null>(null);
+  const [loadingBrowse, setLoadingBrowse] = useState(false);
   const [loadingCompare, setLoadingCompare] = useState(false);
   const [loadingRevise, setLoadingRevise] = useState(false);
   // const hasEffectRun = useRef(false);
 
+  const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      try {
+        setLoadingBrowse(true);
+        const formData = new FormData();
+        formData.append('resume', file);
+        const response: AxiosResponse = await postFastApiFile('upload_resume', formData);
+        const jsonData = JSON.parse(response.data);
+        setuploadData(jsonData.text);
+      } catch (error) {
+        console.error('API Error:', error);
+      } finally {
+        setLoadingBrowse(false);
+      }
+    }
+  }
   const handleCompareClick = async () => {
     try {
       setLoadingCompare(true);
       const response: AxiosResponse = await getFastApiData('compare_resume');
-      setCompareData(response.data);
+      const jsonData = JSON.parse(response.data);
+      setCompareData(jsonData);
     } catch (error) {
       console.error('API Error:', error);
     } finally {
@@ -27,7 +48,8 @@ export default function Home() {
     try {
       setLoadingRevise(true);
       const response: AxiosResponse = await getFastApiData('revise_resume');
-      setReviseData(response.data);
+      const jsonData = JSON.parse(response.data);
+      setReviseData(jsonData);
     } catch (error) {
       console.error('API Error:', error);
     } finally {
@@ -58,19 +80,30 @@ export default function Home() {
   return (
     <div className="container mx-auto mt-8 flex-grow">
       <h1 className="text-4xl font-bold mb-4 text-center">Welcome To RESUMIVISE!</h1>
-      <p className='container mx-auto px-4 pb-6'>
+      <div className='container mx-auto px-4 pb-6'>
         Upload your Resume in DOCX or PDF format:  &nbsp;&nbsp;
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Browse
-        </button>
-      </p>
+        <label className="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+          {loadingBrowse ? 'Uploading...' : 'Browse'}
+          <input
+            type="file"
+            className="hidden"
+            onChange={handleFileUpload}
+            disabled={loadingBrowse}
+          />
+        </label>
+        {uploadData && (
+          <p className='container mx-auto px-4 py-8 text-yellow-700'>
+            {uploadData}
+          </p>
+        )}
+      </div>
 
       <p className='container mx-auto px-4 pb-8 text-red-700 font-serif text-lg font-bold'>
         CAUTIOUS: Currently due to using the GPT 3.5, this may take a while. BE PATIENT! 😇
       </p>
 
-      <p className='container mx-auto px-4 pb-6'>
-        What is your request? 
+      <div className='container mx-auto px-4 pb-6'>
+        <p>What is your request?</p>
         <ul>
           <li className='container mx-auto px-4 pb-6'>
             Compare your resume with Job Description:  &nbsp;&nbsp;
@@ -93,7 +126,7 @@ export default function Home() {
             </button>
           </li>
         </ul>
-      </p>
+      </div>
       
       {compareData && (
         <div className='container mx-auto px-4 py-4'>
