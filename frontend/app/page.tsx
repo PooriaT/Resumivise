@@ -22,7 +22,8 @@ export default function Home() {
         const formData = new FormData();
         formData.append('resume', file);
         const response: AxiosResponse = await postFastApiFile('upload_resume', formData);
-        setuploadData(response.data);
+        const jsonData = JSON.parse(response.data);
+        setuploadData(jsonData.text);
       } catch (error) {
         console.error('API Error:', error);
       } finally {
@@ -34,7 +35,8 @@ export default function Home() {
     try {
       setLoadingCompare(true);
       const response: AxiosResponse = await getFastApiData('compare_resume');
-      setCompareData(response.data);
+      const jsonData = JSON.parse(response.data);
+      setCompareData(jsonData);
     } catch (error) {
       console.error('API Error:', error);
     } finally {
@@ -46,7 +48,8 @@ export default function Home() {
     try {
       setLoadingRevise(true);
       const response: AxiosResponse = await getFastApiData('revise_resume');
-      setReviseData(response.data);
+      const jsonData = JSON.parse(response.data);
+      setReviseData(jsonData);
     } catch (error) {
       console.error('API Error:', error);
     } finally {
@@ -77,7 +80,7 @@ export default function Home() {
   return (
     <div className="container mx-auto mt-8 flex-grow">
       <h1 className="text-4xl font-bold mb-4 text-center">Welcome To RESUMIVISE!</h1>
-      <p className='container mx-auto px-4 pb-6'>
+      <div className='container mx-auto px-4 pb-6'>
         Upload your Resume in DOCX or PDF format:  &nbsp;&nbsp;
         <label className="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
           {loadingBrowse ? 'Uploading...' : 'Browse'}
@@ -89,11 +92,11 @@ export default function Home() {
           />
         </label>
         {uploadData && (
-          <p className='container mx-auto px-4 pb-6'>
+          <p className='container mx-auto px-4 py-8 text-yellow-700'>
             {uploadData}
           </p>
         )}
-      </p>
+      </div>
 
       <p className='container mx-auto px-4 pb-8 text-red-700 font-serif text-lg font-bold'>
         CAUTIOUS: Currently due to using the GPT 3.5, this may take a while. BE PATIENT! 😇

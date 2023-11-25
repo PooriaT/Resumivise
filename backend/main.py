@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 
+
 app = FastAPI()
 
 # Allow all origins in development. Adjust as needed for production.
@@ -39,7 +40,6 @@ def get_gpt_client():
 
 def reading_data(file_path):
     file_extension = os.path.splitext(file_path)[1].lower()
-    print(file_path)
     if file_extension == '.pdf':
         data = json.loads(read_pdf(file_path))
     elif file_extension == '.docx':
@@ -53,9 +53,9 @@ def process_upload(filename, file_content):
     print(filename)
     file_extension = filename.split('.')[1].lower()
     if file_extension in ['docx', 'pdf']:
-        with open('./static/resume/uploaded_resume' + file_extension, 'wb') as f:
+        with open(f"./static/resume/uploaded_resume.{file_extension}", 'wb') as f:
             f.write(file_content.read())
-        data = reading_data('./static/resume/uploaded_resume.docx')
+        data = reading_data(f"./static/resume/uploaded_resume.{file_extension}")
         gptClient = get_gpt_client()
         extracted_resume_data = gptClient.extract_info_from_resume(data['text'])
 
@@ -71,10 +71,11 @@ def process_upload(filename, file_content):
             print('JSON data has been successfully written to extracted_resume.json.')
 
         except json.JSONDecodeError as e:
-            print(f'Error decoding JSON: {e}')
+            return f'Error decoding JSON: {e}'
         except Exception as e:
-            print(f'Error: {e}')
-
+            return f'Error: {e}'
+        
+        os.remove(f"./static/resume/uploaded_resume.{file_extension}")
         return 'successfully uploaded'
     else:
         return 'Failed to upload'
