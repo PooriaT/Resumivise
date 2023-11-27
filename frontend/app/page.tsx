@@ -149,7 +149,7 @@ export default function Home() {
         <div className='container mx-auto px-4 py-4'>
           <h2 className="px-2 pb-2">Here is the comparison of your resume with Job Description:</h2>
           <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
-            <p className='px-4 py-4 font-mono text-black'>{compareData}</p>
+            <pre className='px-4 py-4 font-mono text-black overflow-auto'>{compareData}</pre>
           </div>
         </div>
       )}
@@ -158,7 +158,7 @@ export default function Home() {
         <div className='container mx-auto px-4 py-4'>
           <h2 className="px-2 pb-2">Here is the your tailored resume based on the Job Description:</h2>
           <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
-            <p className='px-4 py-4 font-mono text-black'>{reviseData}</p>
+            <pre className='px-4 py-4 font-mono text-black overflow-auto'>{reviseData}</pre>
           </div>
         </div>
       )}
