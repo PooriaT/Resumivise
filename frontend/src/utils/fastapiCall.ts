@@ -22,3 +22,13 @@ function axiosConfig(): AxiosInstance {
     });
     return response;
   }
+
+  export async function postFastApiText(para: string, data: string): Promise<AxiosResponse> {
+    const jsonData = {text: data};
+    const response: AxiosResponse = await axiosConfig().post(`/${para}`, jsonData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  }

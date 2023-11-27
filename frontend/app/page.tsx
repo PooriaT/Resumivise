@@ -1,16 +1,19 @@
 // app/page.tsx
 "use client";
 import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
-import { getFastApiData, postFastApiFile } from '@/src/utils/fastapiCall';
+import { getFastApiData, postFastApiFile, postFastApiText } from '@/src/utils/fastapiCall';
 import { AxiosResponse }  from 'axios';
 
 export default function Home() {
   const [uploadData, setuploadData] = useState<string | null>(null);
+  const [jobDescriptionData, setJobDescriptionData] = useState<string>('');
   const [compareData, setCompareData] = useState<string | null>(null);
   const [reviseData, setReviseData] = useState<string | null>(null);
   const [loadingBrowse, setLoadingBrowse] = useState(false);
+  const [loadingJobDescription, setLoadingJobDescription] = useState(false);
   const [loadingCompare, setLoadingCompare] = useState(false);
   const [loadingRevise, setLoadingRevise] = useState(false);
+
   // const hasEffectRun = useRef(false);
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +32,19 @@ export default function Home() {
       } finally {
         setLoadingBrowse(false);
       }
+    }
+  }
+  const handleTextUpload = async () => {
+    try {
+      setLoadingJobDescription(true);
+      const response: AxiosResponse = await postFastApiText("upload_job_description", jobDescriptionData);
+      if (response) {
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+    } finally {
+      setLoadingJobDescription(false);
     }
   }
   const handleCompareClick = async () => {
@@ -56,30 +72,12 @@ export default function Home() {
       setLoadingRevise(false);
     }
   };
-
-  // useEffect(() => {
-  //   if (!hasEffectRun.current) {
-  //     const fetchDataFromApi = async () => {
-  //       try {
-  //         const responseCompare: AxiosResponse = await getFastApiData('compare_resume');
-  //         const responseRevise: AxiosResponse = await getFastApiData('revise_resume');
-  //         setCompareData(responseCompare.data);
-  //         setReviseData(responseRevise.data);
-  //       } catch (error) {
-  //         console.error('API Error:', error);
-  //       }
-  //     };
-
-  //     fetchDataFromApi();
-  //     hasEffectRun.current = true;
-  //   }
-  // }, []);
-
   
 
   return (
     <div className="container mx-auto mt-8 flex-grow">
       <h1 className="text-4xl font-bold mb-4 text-center">Welcome To RESUMIVISE!</h1>
+      {/* Uploading Resume */}
       <div className='container mx-auto px-4 pb-6'>
         Upload your Resume in DOCX or PDF format:  &nbsp;&nbsp;
         <label className="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
@@ -101,7 +99,26 @@ export default function Home() {
       <p className='container mx-auto px-4 pb-8 text-red-700 font-serif text-lg font-bold'>
         CAUTIOUS: Currently due to using the GPT 3.5, this may take a while. BE PATIENT! 😇
       </p>
-
+      {/* Job Description */}
+      <div className='container mx-auto px-4 pb-6'>
+        <p className='px-4 pb-6'>Insert the desired job description in below box:</p>
+        <textarea 
+          className="resize text-black rounded-md px-4 pb-20 h-64 w-1/2" 
+          placeholder='Job Description'
+          value={jobDescriptionData}
+          onChange={(e) => setJobDescriptionData(e.target.value)}
+        ></textarea>
+        <p className='py-2'></p>
+        <button
+          className={`bg-blue-300 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${loadingJobDescription ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={handleTextUpload}
+          disabled={loadingJobDescription}
+        >
+          {loadingJobDescription ? 'Pushing...' : 'PUSH'}
+        </button>
+      </div>
+      
+      {/* Comparing and revising the resume */}
       <div className='container mx-auto px-4 pb-6'>
         <p>What is your request?</p>
         <ul>
@@ -132,7 +149,7 @@ export default function Home() {
         <div className='container mx-auto px-4 py-4'>
           <h2 className="px-2 pb-2">Here is the comparison of your resume with Job Description:</h2>
           <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
-            <p className='px-4 py-4 font-mono text-black'>{compareData}</p>
+            <pre className='px-4 py-4 font-mono text-black overflow-auto'>{compareData}</pre>
           </div>
         </div>
       )}
@@ -141,7 +158,7 @@ export default function Home() {
         <div className='container mx-auto px-4 py-4'>
           <h2 className="px-2 pb-2">Here is the your tailored resume based on the Job Description:</h2>
           <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
-            <p className='px-4 py-4 font-mono text-black'>{reviseData}</p>
+            <pre className='px-4 py-4 font-mono text-black overflow-auto'>{reviseData}</pre>
           </div>
         </div>
       )}

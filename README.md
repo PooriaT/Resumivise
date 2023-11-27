@@ -26,34 +26,3 @@ The project uses OpenAI's GPT API to preprocess the resume and extract relevant 
 
 ## Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request on the GitHub repository.
-
-
-
-### THIS PART WILL BE OMITTED.
-
-project-root/
-|-- backend/                # FastAPI backend
-|   |-- app/               # FastAPI app module
-|       |-- __init__.py
-|       |-- main.py        # FastAPI main application file
-|       |-- api/           # API routers
-|           |-- __init__.py
-|           |-- example.py # Example API router
-|       |-- models/        # Pydantic models
-|           |-- __init__.py
-|           |-- example.py # Example Pydantic model
-|       |-- database.py    # Database setup, models, etc.
-|   |-- requirements.txt   # Backend dependencies
-|   |-- main.py            # Backend entry point
-|-- frontend/               # React frontend
-|   |-- public/            # Static assets
-|   |-- src/               # React source code
-|       |-- components/    # Reusable React components
-|       |-- pages/         # React components for pages
-|       |-- App.js         # Main React component
-|       |-- index.js       # React entry point
-|   |-- package.json       # Frontend dependencies
-|   |-- .env               # Environment variables for frontend
-|-- .gitignore             # Git ignore file
-|-- README.md              # Project documentation
-|-- docker-compose.yml     # Docker Compose configuration
