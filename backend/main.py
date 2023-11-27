@@ -3,7 +3,7 @@ import json
 from utils.docReader import read_docx, write_docx
 from utils.pdfReader import read_pdf
 from api.gptApi import GptApi
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Request, Form
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -48,7 +48,7 @@ def reading_data(file_path):
         raise HTTPException(status_code=400, detail='File type not supported')
     return data
 
-def process_upload(filename, file_content):
+def process_upload_resume(filename, file_content):
     print("UPLOAD")
     print(filename)
     file_extension = filename.split('.')[1].lower()
@@ -79,6 +79,15 @@ def process_upload(filename, file_content):
         return 'successfully uploaded'
     else:
         return 'Failed to upload'
+    
+def process_upload_job_description(job_description_data):
+    try:
+        with open('./static/resume/job_description.txt', 'w') as file:
+                file.write(job_description_data)
+        return "Job description received successfully"
+    except Exception as e:
+        return f'Error: {e}'
+
 
 def process_compare():
     print("COMPARE")
@@ -87,8 +96,11 @@ def process_compare():
     with open('./static/resume/extracted_resume.json') as file:
         extracted_resume_data = file.read()
 
-    with open('./static/resume/job_description.txt') as file:
-        job_description_data = file.read()
+    try: 
+        with open('./static/resume/job_description.txt') as file:
+                job_description_data = file.read()
+    except FileNotFoundError:
+        job_description_data = ''
 
     return gptClient.compare_resume_with_job_description(
         extracted_resume_data, 
@@ -102,8 +114,11 @@ def process_revise():
     with open('./static/resume/extracted_resume.json') as file:
         extracted_resume_data = file.read()
 
-    with open('./static/resume/job_description.txt') as file:
-        job_description_data = file.read()
+    try: 
+        with open('./static/resume/job_description.txt') as file:
+                job_description_data = file.read()
+    except FileNotFoundError:
+        job_description_data = ''
 
     return gptClient.align_resume_info_with_job_description(
         extracted_resume_data, 
@@ -114,10 +129,16 @@ def process_revise():
 @app.post("/upload_resume")
 def upload_resume(resume: UploadFile = File(...)):
     try:
-        result = process_upload(resume.filename, resume.file)
+        result = process_upload_resume(resume.filename, resume.file)
         return json.dumps({'text': result})
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+    
+@app.post("/upload_job_description")
+def upload_job_description(data: dict):
+    job_description = data['text']
+    result = process_upload_job_description(job_description)
+    return {"message": result}
 
 @app.get("/compare_resume")
 def compare_resume():
@@ -138,4 +159,4 @@ def revise_resume():
 
 
 if __name__ == "__main__":
-    uvicorn.run('main:app', host="0.0.0.0", port=8000, workers=4)
+    uvicorn.run('main:app', host="0.0.0.0", port=8000, workers=4,)
