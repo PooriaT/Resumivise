@@ -19,7 +19,6 @@ export default function Home() {
   // Function to generate UUID
   const generateClientId = () => {
     const generatedId = uuidv4();
-    console.log(generatedId);
     setClientId(generatedId);
     return generatedId;
   };
@@ -57,7 +56,6 @@ export default function Home() {
   const handleTextUpload = async () => {
     try {
       setLoadingJobDescription(true);
-      console.log(clientId);
       const response: AxiosResponse = await postFastApiText("upload_job_description", jobDescriptionData, clientId);
       if (response) {
         console.log(response.data);
