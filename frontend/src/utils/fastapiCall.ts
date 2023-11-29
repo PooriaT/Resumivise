@@ -9,13 +9,15 @@ function axiosConfig(): AxiosInstance {
   }
 
 
-  export async function getFastApiData(para: string): Promise<AxiosResponse> {
-    const response: AxiosResponse = await axiosConfig().get(`/${para}`);
+  export async function getFastApiData(endpoint: string, clientId: string): Promise<AxiosResponse> {
+    const response: AxiosResponse = await axiosConfig().get(`/${endpoint}`, {
+      params: { client_id: clientId },
+    });
     return response;
   }
 
-  export async function postFastApiFile(para: string, data: FormData): Promise<AxiosResponse> {
-    const response: AxiosResponse = await axiosConfig().post(`/${para}`, data, {
+  export async function postFastApiFile(endpoint: string, data: FormData): Promise<AxiosResponse> {
+    const response: AxiosResponse = await axiosConfig().post(`/${endpoint}`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -23,9 +25,9 @@ function axiosConfig(): AxiosInstance {
     return response;
   }
 
-  export async function postFastApiText(para: string, data: string): Promise<AxiosResponse> {
-    const jsonData = {text: data};
-    const response: AxiosResponse = await axiosConfig().post(`/${para}`, jsonData, {
+  export async function postFastApiText(endpoint: string, data: string, clientId: string): Promise<AxiosResponse> {
+    const jsonData = {text: data, client_id: clientId };
+    const response: AxiosResponse = await axiosConfig().post(`/${endpoint}`, jsonData, {
       headers: {
         'Content-Type': 'application/json',
       },
