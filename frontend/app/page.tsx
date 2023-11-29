@@ -119,7 +119,7 @@ export default function Home() {
       </div>
 
       <p className='container mx-auto px-4 pb-8 text-red-700 font-serif text-lg font-bold'>
-        CAUTIOUS: Currently due to using the GPT 3.5, this may take a while. BE PATIENT! 😇
+        CAUTIOUS: Currently due to using the GPT 3.5, this may take a while. BE PATIENT! 😇🤹
       </p>
       {/* Job Description */}
       <div className='container mx-auto px-4 pb-6'>
