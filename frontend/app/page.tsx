@@ -3,18 +3,37 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { getFastApiData, postFastApiFile, postFastApiText } from '@/src/utils/fastapiCall';
 import { AxiosResponse }  from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Home() {
   const [uploadData, setuploadData] = useState<string | null>(null);
   const [jobDescriptionData, setJobDescriptionData] = useState<string>('');
   const [compareData, setCompareData] = useState<string | null>(null);
   const [reviseData, setReviseData] = useState<string | null>(null);
+  const [clientId, setClientId] = useState<string>('');
   const [loadingBrowse, setLoadingBrowse] = useState(false);
   const [loadingJobDescription, setLoadingJobDescription] = useState(false);
   const [loadingCompare, setLoadingCompare] = useState(false);
   const [loadingRevise, setLoadingRevise] = useState(false);
 
-  // const hasEffectRun = useRef(false);
+  // Function to generate UUID
+  const generateClientId = () => {
+    const generatedId = uuidv4();
+    console.log(generatedId);
+    setClientId(generatedId);
+    return generatedId;
+  };
+
+  useEffect(() => {
+    const storedClientId = localStorage.getItem('clientId');
+
+    if (storedClientId) {
+      setClientId(storedClientId);
+    } else {
+      const newClientId = generateClientId();
+      localStorage.setItem('clientId', newClientId);
+    }
+  }, []); 
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -24,6 +43,7 @@ export default function Home() {
         setLoadingBrowse(true);
         const formData = new FormData();
         formData.append('resume', file);
+        formData.append('client_id', clientId);
         const response: AxiosResponse = await postFastApiFile('upload_resume', formData);
         const jsonData = JSON.parse(response.data);
         setuploadData(jsonData.text);
@@ -37,7 +57,8 @@ export default function Home() {
   const handleTextUpload = async () => {
     try {
       setLoadingJobDescription(true);
-      const response: AxiosResponse = await postFastApiText("upload_job_description", jobDescriptionData);
+      console.log(clientId);
+      const response: AxiosResponse = await postFastApiText("upload_job_description", jobDescriptionData, clientId);
       if (response) {
         console.log(response.data);
       }
@@ -50,7 +71,7 @@ export default function Home() {
   const handleCompareClick = async () => {
     try {
       setLoadingCompare(true);
-      const response: AxiosResponse = await getFastApiData('compare_resume');
+      const response: AxiosResponse = await getFastApiData('compare_resume', clientId);
       const jsonData = JSON.parse(response.data);
       setCompareData(jsonData);
     } catch (error) {
@@ -63,7 +84,7 @@ export default function Home() {
   const handleReviseClick = async () => {
     try {
       setLoadingRevise(true);
-      const response: AxiosResponse = await getFastApiData('revise_resume');
+      const response: AxiosResponse = await getFastApiData('revise_resume', clientId);
       const jsonData = JSON.parse(response.data);
       setReviseData(jsonData);
     } catch (error) {
@@ -78,6 +99,9 @@ export default function Home() {
     <div className="container mx-auto mt-8 flex-grow">
       <h1 className="text-4xl font-bold mb-4 text-center">Welcome To RESUMIVISE!</h1>
       {/* Uploading Resume */}
+      <p className='container mx-auto px-4 pb-8 text-red-700 font-serif text-lg font-bold'>
+        ATTENTION: REMOVE the CONFIDENTIAL information of your resume such as address, phone number or email, before uploading!
+      </p>
       <div className='container mx-auto px-4 pb-6'>
         Upload your Resume in DOCX or PDF format:  &nbsp;&nbsp;
         <label className="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
