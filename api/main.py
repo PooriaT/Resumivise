@@ -1,8 +1,8 @@
 import os
 import json
-from utils.docReader import read_docx, write_docx
-from utils.pdfReader import read_pdf
-from api.gptApi import GptApi
+from .utils.docReader import read_docx, write_docx
+from .utils.pdfReader import read_pdf
+from .api.gptApi import GptApi
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -52,18 +52,18 @@ def process_upload_resume(filename, file_content, client_id):
     file_extension = filename.split('.')[1].lower()
     if file_extension in ['docx', 'pdf']:
         filen_name = name_generator('uploaded_resume',client_id)
-        with open(f"./static/resume/{filen_name}.{file_extension}", 'wb') as f:
+        with open(f"./api/static/resume/{filen_name}.{file_extension}", 'wb') as f:
             f.write(file_content.read())
-        data = reading_data(f"./static/resume/{filen_name}.{file_extension}")
+        data = reading_data(f"./api/static/resume/{filen_name}.{file_extension}")
         gptClient = get_gpt_client()
         extracted_resume_data = gptClient.extract_info_from_resume(data['text'])
 
         try:
             extracted_resume_data = json.loads(extracted_resume_data)
             extracted_resume_filename = name_generator('extracted_resume',client_id)
-            with open(f"./static/resume/{extracted_resume_filename}.json", 'w') as file:
+            with open(f"./api/static/resume/{extracted_resume_filename}.json", 'w') as file:
                 json.dump(extracted_resume_data, file)
-            os.remove(f"./static/resume/{filen_name}.{file_extension}")
+            os.remove(f"./api/static/resume/{filen_name}.{file_extension}")
             return 'successfully uploaded'
         except json.JSONDecodeError as e:
             return f'Error decoding JSON: {e}'
@@ -75,7 +75,7 @@ def process_upload_resume(filename, file_content, client_id):
 def process_upload_job_description(job_description_data, client_id):
     try:
         job_description_filename = name_generator('job_description',client_id)
-        with open(f"./static/resume/{job_description_filename}.txt", 'w') as file:
+        with open(f"./api/static/resume/{job_description_filename}.txt", 'w') as file:
                 file.write(job_description_data)
         return "Job description received successfully"
     except Exception as e:
@@ -88,9 +88,9 @@ def process_compare(client_id):
     job_description_filename = name_generator('job_description',client_id)
     
     try: 
-        with open(f"./static/resume/{extracted_resume_filename}.json") as file:
+        with open(f"./api/static/resume/{extracted_resume_filename}.json") as file:
             extracted_resume_data = file.read()
-        with open(f"./static/resume/{job_description_filename}.txt") as file:
+        with open(f"./api/static/resume/{job_description_filename}.txt") as file:
                 job_description_data = file.read()
         return gptClient.compare_resume_with_job_description(
             extracted_resume_data, 
@@ -106,9 +106,9 @@ def process_revise(client_id):
     job_description_filename = name_generator('job_description',client_id)
     
     try: 
-        with open(f"./static/resume/{extracted_resume_filename}.json") as file:
+        with open(f"./api/static/resume/{extracted_resume_filename}.json") as file:
             extracted_resume_data = file.read()
-        with open(f"./static/resume/{job_description_filename}.txt") as file:
+        with open(f"./api/static/resume/{job_description_filename}.txt") as file:
                 job_description_data = file.read()
         return gptClient.align_resume_info_with_job_description(
             extracted_resume_data, 
