@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "fastapi-dev": "cd api && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && uvicorn main:app --reload --workers 4",
-    "fastapi-start": "cd api && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4",
+    "fastapi-dev": "cd api && python3 -m venv venv && . venv/bin/activate && pip3 install -r requirements.txt && uvicorn main:app --reload --workers 4",
+    "fastapi-start": "cd api && pip3 install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4",
     "next-dev": "next dev",
     "next-start": "next start",
     "dev": "concurrently \"npm run next-dev\" \"npm run fastapi-dev\"",
