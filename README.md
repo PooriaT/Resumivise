@@ -11,16 +11,9 @@ The project uses a tool called OpenAI's GPT API to prepare the resume. It takes 
 2. Navigate to the project directory: `cd Resumivise`
 
 ### Backend
-   1. Navigate to backend directory: `cd backend`
-   2. Create a virtual environment: `python -m venv venv`
-   3. Activate the virtual environment:
-      - For Windows: `venv\Scripts\activate.bat`
-      - For Unix/Linux: `source venv/bin/activate`
-   4. Install the required dependencies: `pip install -r requirements.txt`
-   5. Run the main script: `python main.py`
+The backend is built using FastAPI and resides in the `api` directory. If you check out `package.json`, it's responsible for running FastAPI. For Windows users, simply replace `. venv/bin/activate` with `venv\Scripts\activate.bat` in the `"fastapi-dev"` configuration.
 
 ### Frontend
-1. Navigate to frontend directory: `cd frontend`
 2. Install the required packages: `npm install`
 3. Run it in development mode: `npm run dev`
 4. Visit `http://localhost:3000` URL in your browser
