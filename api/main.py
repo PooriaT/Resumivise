@@ -118,7 +118,7 @@ def process_revise(client_id):
         return "There is something wrong. It may be that you have not uploaded any resume or job description!!"
 
 
-@app.post("/upload_resume")
+@app.post("/api/upload_resume")
 def upload_resume(resume: UploadFile = File(...), client_id: str = Form(...)):
     try:
         result = process_upload_resume(resume.filename, resume.file, client_id)
@@ -126,14 +126,14 @@ def upload_resume(resume: UploadFile = File(...), client_id: str = Form(...)):
     except Exception as e:
         return json.dumps({'text': f"An error occurred: {str(e)}"})
     
-@app.post("/upload_job_description")
+@app.post("/api/upload_job_description")
 def upload_job_description(data: dict):
     client_id=data.get('client_id', '')
     job_description = data['text']
     result = process_upload_job_description(job_description, client_id)
     return {"message": result}
 
-@app.get("/compare_resume")
+@app.get("/api/compare_resume")
 def compare_resume(client_id: str = Query(...)):
     compared_data_stream = process_compare(client_id)
     # return StreamingResponse(compared_data_stream,
@@ -141,7 +141,7 @@ def compare_resume(client_id: str = Query(...)):
     return json.dumps(compared_data_stream)
 
 
-@app.get("/revise_resume")
+@app.get("/api/revise_resume")
 def revise_resume(client_id: str = Query(...)):
     tailored_resume_data_stream = process_revise(client_id)
     # return StreamingResponse(tailored_resume_data_stream,

@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosInstance } from 'axios';
 
 function axiosConfig(): AxiosInstance {
     const axiosInstance = axios.create({
-      baseURL:  'http://localhost:8000',
+      baseURL:  'http://localhost:8000/api',
     }); // 'https://catfact.ninja/fact'
   
     return axiosInstance;
