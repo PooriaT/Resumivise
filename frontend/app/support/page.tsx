@@ -20,10 +20,20 @@ function Support() {
         <p className="p-2">
           And if you&apos;re loving what we do and want to support us even more, consider buying me a book. &nbsp;&nbsp;
           <button className="flex  pt-2">
-            <Script id="bmab-btn" type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" 
-              data-slug="pooria7" data-color="#40DCA5" data-emoji="📖"  data-font="Cookie" data-text="Buy me a book" data-outline-color="#000000" 
-              data-font-color="#ffffff" data-coffee-color="#FFDD00" >
-            </Script>
+            <Script
+                id="bmab-btn"
+                strategy="lazyOnload"
+                src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
+                data-name="bmc-button"
+                data-slug="pooria7"
+                data-color="#40DCA5"
+                data-emoji="📖"
+                data-font="Cookie"
+                data-text="Buy me a book"
+                data-outline-color="#000000"
+                data-font-color="#ffffff"
+                data-coffee-color="#FFDD00"
+              ></Script>
           </button>
         </p>
       </section>
