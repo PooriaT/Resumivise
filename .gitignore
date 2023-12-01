@@ -126,9 +126,6 @@ dmypy.json
 cython_debug/
 
 
-#random
-resume/
-
 ############################################
 # Frontend
 

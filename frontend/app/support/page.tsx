@@ -1,5 +1,7 @@
 // pages/support.tsx
 import Script from "next/script";
+import Image from 'next/image';
+import Link from 'next/link';
 
 function Support() {
   return (
@@ -18,23 +20,16 @@ function Support() {
           Your support fuels our passion, and we truly appreciate it. Thanks for being a vital part of our journey.
         </p>
         <p className="p-2">
-          And if you&apos;re loving what we do and want to support us even more, consider buying me a book. &nbsp;&nbsp;
-          <button className="flex  pt-2">
-            <Script
-                id="bmab-btn"
-                strategy="lazyOnload"
-                src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
-                data-name="bmc-button"
-                data-slug="pooria7"
-                data-color="#40DCA5"
-                data-emoji="📖"
-                data-font="Cookie"
-                data-text="Buy me a book"
-                data-outline-color="#000000"
-                data-font-color="#ffffff"
-                data-coffee-color="#FFDD00"
-              ></Script>
-          </button>
+          And if you&apos;re loving what we do and want to support us even more, consider buying me a book or a coffee! &nbsp;&nbsp;
+          <Link href="https://www.buymeacoffee.com/pooria7" target="_blank">
+            <Image 
+              className="py-4"
+              src="/green-button.png" 
+              alt="Buy Me A Coffee"
+              width={217}
+              height={60}
+            />
+          </Link>
         </p>
       </section>
     </div>
