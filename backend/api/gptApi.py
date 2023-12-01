@@ -2,8 +2,9 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
+BASEDIR = os.path.abspath(os.path.dirname(__file__)) + "/../"
 
-load_dotenv()
+load_dotenv(os.path.join(BASEDIR, '.env'))
 openaiApiKey = os.getenv("OPENAI_API_KEY")
 
 class GptApi:
