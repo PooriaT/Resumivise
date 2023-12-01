@@ -6,7 +6,6 @@ from openai import OpenAI
 load_dotenv()
 openaiApiKey = os.getenv("OPENAI_API_KEY")
 
-
 class GptApi:
     def __init__(self):
         self.client = OpenAI(api_key=openaiApiKey)

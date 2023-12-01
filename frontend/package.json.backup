@@ -1,10 +1,10 @@
 {
-  "name": "resumivise",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "fastapi-dev": "pip3 install -r requirements.txt && python3 -m uvicorn api.main:app --reload --workers 4",
-    "fastapi-start": "pip3 install -r requirements.txt && python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4",
+    "fastapi-dev": "python3 -m venv venv && . venv/bin/activate && pip3 install -r requirements.txt && python3 -m uvicorn api.main:app --reload --workers 4",
+    "fastapi-start": "python3 -m venv venv && . venv/bin/activate && pip3 install -r requirements.txt && python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4",
     "next-dev": "next dev",
     "next-start": "next start",
     "dev": "concurrently \"npm run next-dev\" \"npm run fastapi-dev\"",
