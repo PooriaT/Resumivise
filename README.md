@@ -17,7 +17,7 @@ The project uses a tool called OpenAI's GPT API to prepare the resume. It takes 
       - For Windows: `venv\Scripts\activate.bat`
       - For Unix/Linux: `source venv/bin/activate`
    4. Install the required dependencies: `pip3 install -r requirements.txt`
-   5. Run the main script: `python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4 --env-file api/.env`
+   5. Run the main script: `python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4`
 
 
 ### Frontend
