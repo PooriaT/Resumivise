@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+# uvicorn.run('main:app', host="0.0.0.0", port=8000, workers=4)
 
 app = FastAPI()
 
@@ -147,8 +148,3 @@ def revise_resume(client_id: str = Query(...)):
     # return StreamingResponse(tailored_resume_data_stream,
     #                            media_type='text/event-stream') # This for Streaming
     return json.dumps(tailored_resume_data_stream)
-
-
-if __name__ == "__main__":
-    pass
-    # uvicorn.run('main:app', host="0.0.0.0", port=8000, workers=4)

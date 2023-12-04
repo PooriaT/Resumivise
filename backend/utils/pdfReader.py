@@ -8,8 +8,3 @@ def read_pdf(file):
     page = reader.pages[0]
     text = page.extract_text()
     return json.dumps({'text': text})
-
-
-if __name__ == '__main__':
-    #print(read_pdf('./resume/resume.pdf'))
-    pass

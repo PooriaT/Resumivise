@@ -12,15 +12,15 @@ function Support() {
           Welcome, and thank you for being a part of our community! Your support means the world to us.
         </p>
         <p className="p-2">
-          If you&apos;re eager to contribute, head over to our application&apos;s <a href="https://github.com/PooriaT/Resumivise"> GitHub repository</a>. 
-          Feel free to fork it, create new issues, or jump into existing ones. Your feedback and ideas are invaluable to us – every contribution, 
+          If you are eager to contribute, visit our application&apos;s <a href="https://github.com/PooriaT/Resumivise"> GitHub repository</a>. 
+          Fork it, create new issues, or jump into existing ones. Your feedback and ideas are invaluable to us – every contribution, 
           big or small, makes a difference.
         </p>
         <p className="p-2">
-          Your support fuels our passion, and we truly appreciate it. Thanks for being a vital part of our journey.
+          Your support fuels our passion, and we appreciate it. Thanks for being a vital part of our journey.
         </p>
         <p className="p-2">
-          And if you&apos;re loving what we do and want to support us even more, consider buying me a book or a coffee! &nbsp;&nbsp;
+          And if you want to support us even more, consider buying me a book or a coffee! &nbsp;&nbsp;
           <Link href="https://www.buymeacoffee.com/pooria7" target="_blank">
             <Image 
               className="py-4"
@@ -28,6 +28,7 @@ function Support() {
               alt="Buy Me A Coffee"
               width={217}
               height={60}
+              style={{ width: 'auto', height: 'auto' }} 
             />
           </Link>
         </p>

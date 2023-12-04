@@ -18,7 +18,3 @@ def write_docx(file, data):
     doc.add_paragraph(json.dumps(data, indent=4))
 
     doc.save(file)
-
-if __name__ == '__main__':
-    #print(read_docx('./resume/resume.docx'))   
-    pass

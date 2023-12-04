@@ -3,7 +3,7 @@ import axios, { AxiosResponse, AxiosInstance } from 'axios';
 function axiosConfig(): AxiosInstance {
     const axiosInstance = axios.create({
       baseURL:  'https://resumivise-api.onrender.com/api',
-    }); // 'https://catfact.ninja/fact' 'http://localhost:8000/api'
+    }); // 'http://localhost:8000/api',  'https://resumivise-api.onrender.com/api',
   
     return axiosInstance;
   }
