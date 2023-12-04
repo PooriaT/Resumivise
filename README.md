@@ -17,7 +17,7 @@ The project uses a tool called OpenAI's GPT API to prepare the resume. It takes 
       - For Windows: `venv\Scripts\activate.bat`
       - For Unix/Linux: `source venv/bin/activate`
    4. Install the required dependencies: `pip3 install -r requirements.txt`
-   5. Run the main script: `python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4`
+   5. Run the main script: `python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload`
 
 
 ### Frontend
@@ -25,6 +25,8 @@ The project uses a tool called OpenAI's GPT API to prepare the resume. It takes 
 2. Install the required packages: `npm install`
 3. Run it in development mode: `npm run dev`
 4. Visit `http://localhost:3000` URL in your browser
+
+Attention: To test it locally, you need to change the base url in frontend to `http://localhost:8000/api`. You can find it in `src/utils/fastapiCall.ts`.
 
 ### Docker
 

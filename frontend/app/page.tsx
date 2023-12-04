@@ -57,9 +57,6 @@ export default function Home() {
     try {
       setLoadingJobDescription(true);
       const response: AxiosResponse = await postFastApiText("upload_job_description", jobDescriptionData, clientId);
-      if (response) {
-        console.log(response.data);
-      }
     } catch (error) {
       console.error('API Error:', error);
     } finally {
@@ -97,8 +94,11 @@ export default function Home() {
     <div className="container mx-auto mt-8 flex-grow">
       <h1 className="text-4xl font-bold mb-4 text-center">Welcome To RESUMIVISE!</h1>
       {/* Uploading Resume */}
-      <p className='container mx-auto px-4 pb-8 text-red-700 font-serif text-lg font-bold'>
-        ATTENTION: REMOVE the CONFIDENTIAL information of your resume such as address, phone number or email, before uploading!
+      <p className='container mx-auto px-4 pb-8 text-orange-700 font-serif text-lg font-bold'>
+        CAVEAT: Remove the confidential information from your resume, such as address, phone number, or email, before uploading!
+      </p>
+      <p className='container mx-auto px-4 pb-8 text-orange-700 font-serif text-lg font-bold'>
+        ATTENTION: Due to the use of GPT-3.5, this process may take a while. Please be patient!
       </p>
       <div className='container mx-auto px-4 pb-6'>
         Upload your Resume in DOCX or PDF format:  &nbsp;&nbsp;
@@ -118,12 +118,9 @@ export default function Home() {
         )}
       </div>
 
-      <p className='container mx-auto px-4 pb-8 text-red-700 font-serif text-lg font-bold'>
-        CAUTIOUS: Currently due to using the GPT 3.5, this may take a while. BE PATIENT! 😇🤹
-      </p>
       {/* Job Description */}
       <div className='container mx-auto px-4 pb-6'>
-        <p className='px-4 pb-6'>Insert the desired job description in below box:</p>
+        <p className='px-4 pb-6'>Insert the desired job description in the box below:</p>
         <textarea 
           className="resize text-black rounded-md px-4 pb-20 h-64 w-1/2" 
           placeholder='Job Description'
@@ -145,7 +142,7 @@ export default function Home() {
         <p>What is your request?</p>
         <ul>
           <li className='container mx-auto px-4 pb-6'>
-            Compare your resume with Job Description:  &nbsp;&nbsp;
+            Compare your resume with the job description:  &nbsp;&nbsp;
             <button
               className={`bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${loadingCompare ? 'opacity-50 cursor-not-allowed' : ''}`}
               onClick={handleCompareClick}
@@ -155,7 +152,7 @@ export default function Home() {
             </button>
           </li>
           <li className='container mx-auto px-4 pb-6'>
-            Revise your resume based on Job Description:  &nbsp;&nbsp;
+            Revise your resume based on the Job Description:  &nbsp;&nbsp;
             <button
               className={`bg-green-300 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ${loadingRevise ? 'opacity-50 cursor-not-allowed' : ''}`}
               onClick={handleReviseClick}
@@ -169,7 +166,7 @@ export default function Home() {
       
       {compareData && (
         <div className='container mx-auto px-4 py-4'>
-          <h2 className="px-2 pb-2">Here is the comparison of your resume with Job Description:</h2>
+          <h2 className="px-2 pb-2">Here is the comparison of your resume with the Job Description:</h2>
           <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
             <pre className='px-4 py-4 font-mono text-black overflow-auto'>{compareData}</pre>
           </div>
@@ -178,7 +175,7 @@ export default function Home() {
 
       {reviseData && (
         <div className='container mx-auto px-4 py-4'>
-          <h2 className="px-2 pb-2">Here is the your tailored resume based on the Job Description:</h2>
+          <h2 className="px-2 pb-2">Here is your tailored resume based on the job description:</h2>
           <div className='box-content px-4 border-4 rounded-lg border-rose-500 border-black bg-gray-400'>
             <pre className='px-4 py-4 font-mono text-black overflow-auto'>{reviseData}</pre>
           </div>
