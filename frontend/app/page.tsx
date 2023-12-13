@@ -2,7 +2,6 @@
 "use client";
 import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { getFastApiData, postFastApiFile, postFastApiText } from '@/src/utils/fastapiCall';
-import axios, { AxiosResponse }  from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 
