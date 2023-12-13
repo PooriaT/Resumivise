@@ -44,7 +44,6 @@ export default function Home() {
         formData.append('resume', file);
         formData.append('client_id', clientId);
         const response: Response = await postFastApiFile('upload_resume', formData);
-        console.log(response)
         const jsonData = await response.json();
         setuploadData(jsonData.text);
       } catch (error) {
