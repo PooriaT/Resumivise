@@ -9,7 +9,7 @@ export async function getFastApiData(endpoint: string, clientId: string): Promis
       Accept: 'text/event-stream',
     },
   });
-  return response;
+  return response.body;
 }
 
 export async function postFastApiFile(endpoint: string, data: FormData): Promise<Response> {
