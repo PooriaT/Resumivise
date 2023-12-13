@@ -1,36 +1,35 @@
-import axios, { AxiosResponse, AxiosInstance } from 'axios';
+const baseURL = 'http://localhost:8000/api'; // Change to your actual API base URL
+ // 'http://localhost:8000/api',  'https://resumivise-api.onrender.com/api'
 
-function axiosConfig(): AxiosInstance {
-    const axiosInstance = axios.create({
-      baseURL:  'https://resumivise-api.onrender.com/api',
-    }); // 'http://localhost:8000/api',  'https://resumivise-api.onrender.com/api',
-  
-    return axiosInstance;
-  }
+export async function getFastApiData(endpoint: string, clientId: string): Promise<ReadableStream<Uint8Array>> {
+  const url = `${baseURL}/${endpoint}?client_id=${clientId}`;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Accept: 'text/event-stream',
+    },
+  });
+  return response;
+}
 
+export async function postFastApiFile(endpoint: string, data: FormData): Promise<Response> {
+  const url = `${baseURL}/${endpoint}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    body: data,
+  });
+  return response;
+}
 
-  export async function getFastApiData(endpoint: string, clientId: string): Promise<AxiosResponse> {
-    const response: AxiosResponse = await axiosConfig().get(`/${endpoint}`, {
-      params: { client_id: clientId },
-    });
-    return response;
-  }
-
-  export async function postFastApiFile(endpoint: string, data: FormData): Promise<AxiosResponse> {
-    const response: AxiosResponse = await axiosConfig().post(`/${endpoint}`, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response;
-  }
-
-  export async function postFastApiText(endpoint: string, data: string, clientId: string): Promise<AxiosResponse> {
-    const jsonData = {text: data, client_id: clientId };
-    const response: AxiosResponse = await axiosConfig().post(`/${endpoint}`, jsonData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response;
-  }
+export async function postFastApiText(endpoint: string, data: string, clientId: string): Promise<Response> {
+  const url = `${baseURL}/${endpoint}`;
+  const jsonData = { text: data, client_id: clientId };
+  const response = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(jsonData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response;
+}

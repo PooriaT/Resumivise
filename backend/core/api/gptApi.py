@@ -48,13 +48,13 @@ class GptApi:
                 }
             ],
             model="gpt-3.5-turbo-16k",
-            #stream=True, # Enable streaming. PAY ATTENTION TO THE RETURN VALUE
+            stream=True, # Enable streaming. PAY ATTENTION TO THE RETURN VALUE
         )
 
-        # for chunk in response:
-        #     current_content = chunk.choices[0].delta.content or ""
-        #     yield str(current_content)
-        return response.choices[0].message.content
+        for chunk in response:
+            current_content = chunk.choices[0].delta.content or ""
+            yield str(current_content)
+        # return response.choices[0].message.content
 
     def align_resume_info_with_job_description(self, extracted_resume_data, job_description_data):
         response =  self.client.chat.completions.create(
@@ -76,10 +76,10 @@ class GptApi:
                 }
             ],
             model="gpt-3.5-turbo-16k",
-            #stream=True, # Enable streaming. PAY ATTENTION TO THE RETURN VALUE
+            stream=True, # Enable streaming. PAY ATTENTION TO THE RETURN VALUE
         )
       
-        # for chunk in response:
-        #     current_content = chunk.choices[0].delta.content or ""
-        #     yield str(current_content)
-        return response.choices[0].message.content
+        for chunk in response:
+            current_content = chunk.choices[0].delta.content or ""
+            yield str(current_content)
+        # return response.choices[0].message.content

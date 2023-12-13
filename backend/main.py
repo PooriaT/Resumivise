@@ -27,6 +27,7 @@ def upload_resume(resume: UploadFile = File(...), client_id: str = Form(...)):
     except Exception as e:
         return json.dumps({'text': f"An error occurred: {str(e)}"})
 
+
 @app.post("/api/upload_job_description")
 def upload_job_description(data: dict):
     client_id=data.get('client_id', '')
@@ -37,13 +38,13 @@ def upload_job_description(data: dict):
 @app.get("/api/compare_resume")
 def compare_resume(client_id: str = Query(...)):
     compared_data_stream = process_compare(client_id)
-    # return StreamingResponse(compared_data_stream,
-    #                            media_type='text/event-stream') # This for Streaming
-    return json.dumps(compared_data_stream)
+    return StreamingResponse(compared_data_stream,
+                               media_type='text/event-stream') # This for Streaming
+    # return json.dumps(compared_data_stream)
 
 @app.get("/api/revise_resume")
 def revise_resume(client_id: str = Query(...)):
     tailored_resume_data_stream = process_revise(client_id)
-    # return StreamingResponse(tailored_resume_data_stream,
-    #                            media_type='text/event-stream') # This for Streaming
-    return json.dumps(tailored_resume_data_stream)
+    return StreamingResponse(tailored_resume_data_stream,
+                               media_type='text/event-stream') # This for Streaming
+    # return json.dumps(tailored_resume_data_stream)
