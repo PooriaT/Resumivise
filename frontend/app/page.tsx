@@ -69,7 +69,7 @@ export default function Home() {
       setLoadingCompare(true);
       setCompareData("");
       const response: ReadableStream<Uint8Array> = await getFastApiData('compare_resume', clientId);
-      const reader = response.body.getReader();
+      const reader = response.getReader();
 
       while (true) {
         const { done, value } = await reader.read();
@@ -90,7 +90,7 @@ export default function Home() {
       setLoadingRevise(true);
       setReviseData("");
       const response: ReadableStream<Uint8Array> = await getFastApiData('revise_resume', clientId);
-      const reader = response.body.getReader();
+      const reader = response.getReader();
 
       while (true) {
         const { done, value } = await reader.read();
