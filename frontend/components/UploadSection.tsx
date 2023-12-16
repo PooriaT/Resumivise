@@ -8,7 +8,7 @@ import {
 } from "@/src/utils/fastapiCall";
 import { v4 as uuidv4 } from "uuid";
 
-const UploadSection = () => {
+export default function UploadSection() {
   const [uploadData, setUploadData] = useState<string | null>(null);
   const [jobDescriptionData, setJobDescriptionData] = useState<string>("");
   const [compareData, setCompareData] = useState<string | null>(null);
@@ -62,10 +62,10 @@ const UploadSection = () => {
   };
 
   const handleCompareClick = async () => {
-    console.log("handlecompareclick called");
+    console.log("handleCompareClick called");
     try {
       setLoadingCompare(true);
-      setCompareData("");
+      //setCompareData("");
       const response: ReadableStream<Uint8Array> = await getFastApiData('compare_resume', clientId);
       const reader = response.getReader();
 
@@ -312,5 +312,3 @@ const UploadSection = () => {
     </>
   );
 };
-
-export default UploadSection;

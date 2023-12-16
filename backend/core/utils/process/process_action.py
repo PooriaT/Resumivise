@@ -58,7 +58,6 @@ def process_upload_job_description(job_description_data, client_id):
     except Exception as e:
         return f'Error: {e}'
 
-
 def process_compare(client_id):
     gpt_client = get_client()
     extracted_resume_filename = name_generator('extracted_resume',client_id)
