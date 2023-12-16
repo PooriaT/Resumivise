@@ -5,10 +5,10 @@ import {
   postFastApiFile,
   postFastApiText,
 } from "@/src/utils/fastapiCall";
-import { AxiosResponse } from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Hero from "@/components/Hero";
 import UploadSection from "@/components/UploadSection";
+
 
 export default function Home() {
   const [uploadData, setuploadData] = useState<string | null>(null);
@@ -21,9 +21,9 @@ export default function Home() {
   const [loadingCompare, setLoadingCompare] = useState(false);
   const [loadingRevise, setLoadingRevise] = useState(false);
 
-  // Function to generate UUID
+
   const generateClientId = () => {
-    const generatedId = uuidv4();
+    const generatedId = uuidv4(); //UUID
     setClientId(generatedId);
     return generatedId;
   };
@@ -48,11 +48,8 @@ export default function Home() {
         const formData = new FormData();
         formData.append("resume", file);
         formData.append("client_id", clientId);
-        const response: AxiosResponse = await postFastApiFile(
-          "upload_resume",
-          formData
-        );
-        const jsonData = JSON.parse(response.data);
+        const response: Response = await postFastApiFile('upload_resume', formData);
+        const jsonData = await response.json();
         setuploadData(jsonData.text);
       } catch (error) {
         console.error("API Error:", error);
@@ -64,11 +61,7 @@ export default function Home() {
   const handleTextUpload = async () => {
     try {
       setLoadingJobDescription(true);
-      const response: AxiosResponse = await postFastApiText(
-        "upload_job_description",
-        jobDescriptionData,
-        clientId
-      );
+      const response: Response = await postFastApiText("upload_job_description", jobDescriptionData, clientId);
     } catch (error) {
       console.error("API Error:", error);
     } finally {
@@ -78,12 +71,17 @@ export default function Home() {
   const handleCompareClick = async () => {
     try {
       setLoadingCompare(true);
-      const response: AxiosResponse = await getFastApiData(
-        "compare_resume",
-        clientId
-      );
-      const jsonData = JSON.parse(response.data);
-      setCompareData(jsonData);
+      setCompareData("");
+      const response: ReadableStream<Uint8Array> = await getFastApiData('compare_resume', clientId);
+      const reader = response.getReader();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        setCompareData((prevData) => prevData ? prevData + new TextDecoder().decode(value) : new TextDecoder().decode(value));
+      }
     } catch (error) {
       console.error("API Error:", error);
     } finally {
@@ -94,12 +92,17 @@ export default function Home() {
   const handleReviseClick = async () => {
     try {
       setLoadingRevise(true);
-      const response: AxiosResponse = await getFastApiData(
-        "revise_resume",
-        clientId
-      );
-      const jsonData = JSON.parse(response.data);
-      setReviseData(jsonData);
+      setReviseData("");
+      const response: ReadableStream<Uint8Array> = await getFastApiData('revise_resume', clientId);
+      const reader = response.getReader();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        setReviseData((prevData) => prevData ? prevData + new TextDecoder().decode(value) : new TextDecoder().decode(value));
+      }
     } catch (error) {
       console.error("API Error:", error);
     } finally {

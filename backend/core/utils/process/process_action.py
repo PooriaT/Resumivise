@@ -67,14 +67,12 @@ def process_compare(client_id):
     try:
         extracted_resume_data = read_file(extracted_resume_filename, 'json')
         job_description_data = read_file(job_description_filename, 'txt')
-        print(job_description_data)
         return gpt_client.compare_resume_with_job_description(
             extracted_resume_data,
             job_description_data
         )
     except FileNotFoundError:
-        return "Something is wrong. Resume or job description not found!!"
-
+        return iter("Something is wrong. Resume or job description not found!!")
 
 def process_revise(client_id):
     gpt_client = get_client()
@@ -89,5 +87,4 @@ def process_revise(client_id):
             job_description_data
         )
     except FileNotFoundError:
-        return "Something is wrong. Resume or job description not found!!"
-
+        return iter("Something is wrong. Resume or job description not found!!")
