@@ -9,10 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.0",
+    "@mui/material": "^5.15.0",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.8",
     "concurrently": "^8.2.2",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",
+    "styled-components": "^6.1.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -21,6 +27,7 @@
     "@types/react-dom": "^18",
     "@types/uuid": "^9.0.7",
     "autoprefixer": "^10.0.1",
+    "daisyui": "^4.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.0.2",
     "postcss": "^8",

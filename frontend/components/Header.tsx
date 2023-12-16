@@ -1,28 +1,30 @@
-// components/Navbar.tsx
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function Header() {
   return (
-    <nav className="bg-gray-800 p-4">
-      <ul className="flex space-x-4 text-white justify-center items-center">
-        <li>
-          <Link className="px-2 text-lg" href="/">
+    <nav className="navbar bg-secondary">
+      <div className="flex-1">
+        <a className="btn btn-ghost hover:bg-transparent hover:scale-110 text-xl">Resumivise</a>
+      </div>
+      <div className="flex-none px-4">
+        <ul className="flex gap-10 px-1">
+        <li className=" rounded-xl hover:cursor-pointer hover:scale-110">
+          <Link href="/">
             Home
           </Link>
         </li>
-        <li>
-          <Link className="px-2 text-lg" href="/about">
+        <li className="rounded-xl hover:cursor-pointer hover:scale-110">
+          <Link href="/about">
             About
           </Link>
         </li>
-        <li>
-          <Link className="px-2 text-lg" href="/support">
+        <li className=" rounded-xl hover:cursor-pointer hover:scale-110">
+          <Link href="/support">
             Support
           </Link>
         </li>
-      </ul>
+        </ul>
+      </div>
     </nav>
   );
 }
-
-
