@@ -9,7 +9,7 @@ const Cta = () => {
           Try Resumivise now and unlock the door to your dream career! Start
           customizing your resume for success.
         </p>
-        <a href="#upload-resume">
+        <a href="/#upload-resume">
           <button className="btn text-secondary hover:bg-accent bg-primary">
             Scan your resume
           </button>

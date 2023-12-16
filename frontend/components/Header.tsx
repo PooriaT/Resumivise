@@ -2,24 +2,24 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <nav className="navbar fixed bg-secondary z-10">
+    <nav className="navbar bg-secondary">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Resumivise</a>
+        <a className="btn btn-ghost hover:bg-transparent hover:scale-110 text-xl">Resumivise</a>
       </div>
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
-        <li>
+      <div className="flex-none px-4">
+        <ul className="flex gap-10 px-1">
+        <li className=" rounded-xl hover:cursor-pointer hover:scale-110">
           <Link href="/">
             Home
           </Link>
         </li>
-        <li>
-          <Link href="#about">
+        <li className="rounded-xl hover:cursor-pointer hover:scale-110">
+          <Link href="/about">
             About
           </Link>
         </li>
-        <li>
-          <Link href="#support">
+        <li className=" rounded-xl hover:cursor-pointer hover:scale-110">
+          <Link href="/support">
             Support
           </Link>
         </li>
