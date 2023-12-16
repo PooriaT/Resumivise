@@ -1,4 +1,4 @@
-const baseURL = 'https://resumivise-api.onrender.com/api'; // Change to your actual API base URL
+const baseURL = 'http://localhost:8000/api'; // Change to your actual API base URL
  // 'http://localhost:8000/api',  'https://resumivise-api.onrender.com/api'
 
 export async function getFastApiData(endpoint: string, clientId: string): Promise<ReadableStream<Uint8Array>> {

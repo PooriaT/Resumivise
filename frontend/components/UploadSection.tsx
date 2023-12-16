@@ -1,6 +1,6 @@
+"use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import { AxiosResponse } from "axios";
 import {
   getFastApiData,
   postFastApiFile,
@@ -9,7 +9,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 const UploadSection = () => {
-  const [uploadData, setuploadData] = useState<string | null>(null);
+  const [uploadData, setUploadData] = useState<string | null>(null);
   const [jobDescriptionData, setJobDescriptionData] = useState<string>("");
   const [compareData, setCompareData] = useState<string | null>(null);
   const [reviseData, setReviseData] = useState<string | null>(null);
@@ -22,9 +22,8 @@ const UploadSection = () => {
   const [uploadResumeSection, setUploadResumeSection] = useState(true);
   const [uploadDataSection, setUploadDataSection] = useState(false);
 
-  // Function to generate UUID
   const generateClientId = () => {
-    const generatedId = uuidv4();
+    const generatedId = uuidv4(); //UUID
     setClientId(generatedId);
     return generatedId;
   };
@@ -49,12 +48,9 @@ const UploadSection = () => {
         const formData = new FormData();
         formData.append("resume", file);
         formData.append("client_id", clientId);
-        const response: AxiosResponse = await postFastApiFile(
-          "upload_resume",
-          formData
-        );
-        const jsonData = JSON.parse(response.data);
-        setuploadData(jsonData.text);
+        const response: Response = await postFastApiFile('upload_resume', formData);
+        const jsonData = await response.json();
+        setUploadData(jsonData.text);
         setUploadDataSection(true);
         setUploadResumeSection(false);
       } catch (error) {
@@ -69,13 +65,17 @@ const UploadSection = () => {
     console.log("handlecompareclick called");
     try {
       setLoadingCompare(true);
-      const response: AxiosResponse = await getFastApiData(
-        "compare_resume",
-        clientId
-      );
-      console.log("compare response data:", response.data);
-      const jsonData = response.data; // response.data is a string
-      setCompareData(jsonData);
+      setCompareData("");
+      const response: ReadableStream<Uint8Array> = await getFastApiData('compare_resume', clientId);
+      const reader = response.getReader();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        setCompareData((prevData) => prevData ? prevData + new TextDecoder().decode(value) : new TextDecoder().decode(value));
+      }
       setUploadDataSection(false);
       console.log("data set:", compareData);
     } catch (error) {
@@ -92,9 +92,9 @@ const UploadSection = () => {
     try {
       console.log("text is uploading...");
       setLoadingJobDescription(true);
-      const response: AxiosResponse = await postFastApiText(
-        "upload_job_description",
-        jobDescriptionData,
+      const response: Response = await postFastApiText(
+        "upload_job_description", 
+        jobDescriptionData, 
         clientId
       );
       console.log("text uploaded!");
@@ -108,12 +108,17 @@ const UploadSection = () => {
     const handleReviseClick = async () => {
       try {
         setLoadingRevise(true);
-        const response: AxiosResponse = await getFastApiData(
-          "revise_resume",
-          clientId
-        );
-        const jsonData = JSON.parse(response.data);
-        setReviseData(jsonData);
+        setReviseData("");
+        const response: ReadableStream<Uint8Array> = await getFastApiData('revise_resume', clientId);
+        const reader = response.getReader();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            break;
+          }
+          setReviseData((prevData) => prevData ? prevData + new TextDecoder().decode(value) : new TextDecoder().decode(value));
+        }
       } catch (error) {
         console.error("API Error:", error);
       } finally {

@@ -87,8 +87,6 @@ __pypackages__/
 celerybeat-schedule
 celerybeat.pid
 
-# SageMath parsed files
-*.sage.py
 
 # Environments
 .env
@@ -124,6 +122,11 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+
+# Static folder in Backendside
+static/resume/*
+!static/resume/dummy.txt
 
 
 ############################################
