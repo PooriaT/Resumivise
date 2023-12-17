@@ -48,16 +48,15 @@ def process_upload_resume(filename, file_content, client_id):
             return f'Error decoding JSON: {e}'
     else:
         return 'Failed to upload'
- 
+
 def process_upload_job_description(job_description_data, client_id):
     try:
         job_description_filename = name_generator('job_description',client_id)
         with open(f"{FILE_PATH}{job_description_filename}.txt", 'w') as file:
-                file.write(job_description_data)
+            file.write(job_description_data)
         return "Job description received successfully"
     except Exception as e:
         return f'Error: {e}'
-
 
 def process_compare(client_id):
     gpt_client = get_client()
