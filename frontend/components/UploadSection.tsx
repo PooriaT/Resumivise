@@ -51,9 +51,6 @@ export default function UploadSection() {
           formData
         );
         const jsonData = await response.json();
-        // setUploadData(
-        //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at mauris in arcu iaculis rutrum. Nam iaculis velit et blandit laoreet. Maecenas venenatis nisi blandit tellus porttitor dapibus. Donec neque erat, iaculis nec lacinia vel, vehicula nec ipsum. Sed libero turpis, placerat ut sollicitudin et, lobortis vitae velit. Morbi pretium nisl tincidunt odio vestibulum, placerat sodales nunc pharetra. In in scelerisque magna. Quisque egestas porta sollicitudin. Mauris pulvinar posuere dolor."
-        // );
         console.log("Resume uploaded successfully!");
       } catch (error) {
         console.error("API Error:", error);
@@ -85,9 +82,6 @@ export default function UploadSection() {
             : new TextDecoder().decode(value)
         );
       }
-      // setCompareData(
-      //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ipsum est, tincidunt rhoncus neque sit amet, aliquam volutpat tortor. Duis mattis, dolor vehicula laoreet tristique, mauris nisl ullamcorper eros, at ultricies mauris enim vel mauris. Ut viverra tortor massa, eu convallis sem pulvinar sit amet. Proin pulvinar eget augue sit amet efficitur. Sed eget ex feugiat, volutpat turpis quis, lobortis lacus. Donec mollis et sapien eu auctor. Ut suscipit nunc turpis, ut feugiat nulla rutrum ac. Sed fringilla elementum consectetur. Nulla suscipit metus sed felis hendrerit euismod. Proin ac quam at eros auctor consectetur. Donec dui ante, efficitur quis tortor sit amet, venenatis consequat erat. Mauris sollicitudin luctus lorem sit amet eleifend. Mauris ligula nulla, sollicitudin et maximus non, tincidunt nec velit. Integer ut est ac ex eleifend blandit eu quis magna. Curabitur tempor dui elit, nec faucibus massa ornare quis. Etiam molestie dui aliquam sapien dignissim, et maximus turpis faucibus. Integer pellentesque dictum rhoncus. Praesent convallis nulla nibh, vel tristique eros porta nec. Etiam sit amet massa id sem bibendum laoreet. Suspendisse tempor justo et ligula scelerisque, et tincidunt diam varius. Nulla sit amet mollis nulla. Nullam nisi libero, porta quis ullamcorper quis, pulvinar id dui. Praesent laoreet ex non lectus varius vehicula. Praesent rutrum non lectus dapibus commodo. Mauris hendrerit nunc sit amet purus luctus, iaculis rhoncus metus auctor. Phasellus eget nibh eu felis dapibus dictum. Nullam semper dui turpis, in consectetur enim gravida sed. Integer fringilla elementum felis, a laoreet diam volutpat et. Donec at quam dui. Donec tempor sit amet mi quis pharetra. Aliquam nec velit at magna rutrum consectetur non luctus nibh. Aliquam commodo justo non libero vestibulum lacinia. Fusce metus purus, ultricies ut rutrum in, efficitur sed erat. Curabitur maximus vestibulum lectus eu vulputate. Nullam id auctor justo.  Nullam velit augue, dapibus nec mi eget, tristique fermentum eros. Donec porttitor maximus posuere. Vivamus ultrices, purus a pellentesque elementum, ante tortor facilisis orci, a bibendum justo ligula a elit. Nunc tincidunt lorem vitae odio euismod volutpat. Praesent posuere semper orci ut bibendum. Sed eget condimentum diam, ac dignissim enim. Sed volutpat, est ut eleifend hendrerit, nisi diam viverra felis, non luctus urna massa sed tellus. Proin ligula enim, feugiat nec euismod eu, feugiat congue tortor. Nam eleifend lacus risus. Vivamus scelerisque massa ex, sed ultrices eros tempus vel. Nam mauris turpis, ultrices nec aliquam ut, scelerisque quis arcu."
-      // );
       console.log("compareData set successfully!");
     } catch (error) {
       console.error("API Error:", error);
@@ -123,9 +117,6 @@ export default function UploadSection() {
     console.log("handleReviseClick called");
     try {
       setLoadingRevise(true);
-      // setReviseData(
-      //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at mauris in arcu iaculis rutrum. Nam iaculis velit et blandit laoreet. Maecenas venenatis nisi blandit tellus porttitor dapibus. Donec neque erat, iaculis nec lacinia vel, vehicula nec ipsum. Sed libero turpis, placerat ut sollicitudin et, lobortis vitae velit. Morbi pretium nisl tincidunt odio vestibulum, placerat sodales nunc pharetra. In in scelerisque magna. Quisque egestas porta sollicitudin. Mauris pulvinar posuere dolor."
-      // );
       const response: ReadableStream<Uint8Array> = await getFastApiData(
         "revise_resume",
         clientId
@@ -205,11 +196,12 @@ export default function UploadSection() {
               placeholder="Input Job Description. Write down the requirements for the job you are applying for. For best results, you should copy-paste the job description from LinkedIn or Career Website."
               value={jobDescriptionData}
               onChange={(e) => setJobDescriptionData(e.target.value)}
-              className="border-2 p-3 rounded-xl"></textarea>
+              className="border-2 p-3 rounded-xl" 
+              required></textarea>
             <br />
             <button
               onClick={handleTextUpload}
-              className="btn text-secondary hover:bg-accent bg-primary">
+              className="btn text-secondary hover:bg-accent bg-primary mt-2">
               {loadingCompare ? (
                 <span className="loading loading-dots loading-md"></span>
               ) : (
