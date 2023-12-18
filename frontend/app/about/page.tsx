@@ -1,8 +1,6 @@
-import Image from "next/image";
-
 function About() {
   return (
-    <div className="flex flex-col w-screen flex-grow bg-secondary px-28 gap-6 pb-16">
+    <div className="flex flex-col w-screen flex-grow bg-secondary lg:px-28 md:px-16 px-6 gap-6 pb-16">
        <h1 className="text-4xl font-bold mb-4 text-center">About</h1>
       <p>
         Welcome to Resumivise – your go-to platform for crafting a standout
