@@ -15,7 +15,7 @@ function Support() {
     github: "https://github.com/alchuu00",
   };
   return (
-    <div className="container mx-auto flex-grow bg-secondary px-28">
+    <div className="flex-grow bg-secondary lg:px-28 md:px-16 px-6 w-screen">
       <section className="mb-8">
         <h1 className="text-4xl font-bold mb-4 text-center">Support</h1>
         <p className="p-2">
@@ -43,20 +43,21 @@ function Support() {
           or a coffee!
         </p>
         <h2 className="text-3xl font-bold my-6 text-center">Contact Us</h2>
-        <div className="flex justify-center gap-6 mb-8">
-          <div className="card w-96 bg-gray-50 shadow-xl">
+        <div className="flex md:flex-row flex-col justify-center gap-6 mb-8">
+          {/* card 1 */}
+          <div className="card md:w-1/3 bg-gray-50 shadow-xl">
             <div className="card-body">
               <h2 className="card-title">Pooria Taghdiri</h2>
-              <a href={pooria.email}>Email: {pooria.email}</a>
+              <a href={pooria.email}><span className="font-bold">Email:</span> {pooria.email}</a>
               <a href={pooria.linkedin} target="_blank">
-                LinkedIn: pooriataghdiri
+              <span className="font-bold">LinkedIn:</span> pooriataghdiri
               </a>
               <a href={pooria.github} target="_blank">
-                GitHub: PooriaT
+              <span className="font-bold">Github:</span> PooriaT
               </a>
               <Link href="https://www.buymeacoffee.com/pooria7" target="_blank">
                 <Image
-                  className="py-4 w-52"
+                  className="py-4 lg:w-52"
                   src="/buyMeACoffeeBtn.png"
                   alt="Buy Me A Coffee"
                   width={150}
@@ -65,15 +66,16 @@ function Support() {
               </Link>
             </div>
           </div>
-          <div className="card w-96 bg-gray-50 shadow-xl">
+          {/* card 2 */}
+          <div className="card md:w-1/3 bg-gray-50 shadow-xl">
             <div className="card-body">
               <h2 className="card-title">Alja Cekada</h2>
-              <a href={alja.email}>Email: {alja.email}</a>
+              <a href={alja.email}><span className="font-bold">Email:</span> {alja.email}</a>
               <a href={alja.linkedin} target="_blank">
-                LinkedIn: aljacekada
+              <span className="font-bold">LinkedIn:</span> aljacekada
               </a>
               <a href={alja.github} target="_blank">
-                GitHub: Alchuu00
+              <span className="font-bold">Github:</span> Alchuu00
               </a>
             </div>
           </div>

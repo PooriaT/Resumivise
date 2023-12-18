@@ -147,8 +147,8 @@ export default function UploadSection() {
       {/* upload resume section */}
       <div
         id="upload-resume"
-        className="flex flex-col justify-start items-center min-h-screen bg-gray-50">
-        <h1 className="text-4xl font-bold my-12">
+        className="w-screen flex flex-col justify-start items-center min-h-screen bg-gray-50 p-4">
+        <h1 className="text-4xl font-bold my-12 md:text-left text-center">
           Optimize Your Resume In Minutes
         </h1>
         <div className="flex flex-col justify-center items-center">
@@ -189,15 +189,12 @@ export default function UploadSection() {
 
         {/* paste job description section */}
         <div className="my-12">
-          <form className="flex flex-col justify-center items-center">
+          <form className="flex flex-col justify-center items-center w-screen">
             <textarea
-              rows={10}
-              cols={80}
               placeholder="Input Job Description. Write down the requirements for the job you are applying for. For best results, you should copy-paste the job description from LinkedIn or Career Website."
               value={jobDescriptionData}
               onChange={(e) => setJobDescriptionData(e.target.value)}
-              className="border-2 p-3 rounded-xl" 
-              required></textarea>
+              className="textarea md:w-1/2 w-2/3 h-56 textarea-bordered bg-secondary"></textarea>
             <br />
             <button
               onClick={handleTextUpload}
@@ -215,7 +212,7 @@ export default function UploadSection() {
         {compareData !== null && (
           <div className="flex flex-col justify-center items-center bg-secondary w-full overflow-auto pt-12">
             <h1 className="text-4xl font-bold mb-12">Results</h1>
-            <div className="w-2/3 overflow-auto border-2 rounded-2xl p-10">
+            <div className="lg:w-2/3 w-4/5 overflow-auto border-2 rounded-2xl lg:p-10 p-4 lg:text-md text-xs">
               <pre>{compareData}</pre>
             </div>
             <button
@@ -234,7 +231,7 @@ export default function UploadSection() {
         {reviseData !== null && (
           <div className="flex flex-col justify-center items-center bg-secondary w-full pb-12">
             <h1 className="text-4xl font-bold mb-12">Revised resume</h1>
-            <div className="w-2/3 overflow-auto border-2 rounded-2xl p-10">
+            <div className="lg:w-2/3 w-4/5 overflow-auto border-2 rounded-2xl lg:p-10 p-4 lg:text-md text-xs">
               <pre>{reviseData}</pre>
             </div>
           </div>

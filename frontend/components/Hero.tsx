@@ -3,10 +3,10 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <div className="hero min-h-screen bg-secondary">
-      <div className="hero-content flex-col lg:flex-row">
-        <div className="w-1/2">
-          <h1 className="text-5xl font-bold">
+    <div className="hero min-h-screen bg-secondary md:text-left text-center">
+      <div className="hero-content flex-col lg:flex-row md:mx-20">
+        <div className="lg:w-1/2">
+          <h1 className="lg:text-5xl text-4xl font-bold">
             Optimize your resume to get more interviews
           </h1>
           <p className="py-6">
