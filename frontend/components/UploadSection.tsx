@@ -51,7 +51,6 @@ export default function UploadSection() {
           formData
         );
         const jsonData = await response.json();
-        console.log("Resume uploaded successfully!");
       } catch (error) {
         console.error("API Error:", error);
       } finally {
@@ -61,7 +60,6 @@ export default function UploadSection() {
   };
 
   const handleCompareClick = async () => {
-    console.log("handleCompareClick called");
     try {
       setLoadingCompare(true);
       setCompareData("");
@@ -82,7 +80,6 @@ export default function UploadSection() {
             : new TextDecoder().decode(value)
         );
       }
-      console.log("compareData set successfully!");
     } catch (error) {
       console.error("API Error:", error);
     } finally {
@@ -95,14 +92,12 @@ export default function UploadSection() {
   ) => {
     event.preventDefault();
     try {
-      console.log("job description is uploading...");
       setLoadingJobDescription(true);
       const response: Response = await postFastApiText(
         "upload_job_description",
         jobDescriptionData,
         clientId
       );
-      console.log("job description uploaded successfully!");
       setLoadingJobDescription(false);
       await handleCompareClick();
     } catch (error) {
@@ -114,7 +109,6 @@ export default function UploadSection() {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
-    console.log("handleReviseClick called");
     try {
       setLoadingRevise(true);
       const response: ReadableStream<Uint8Array> = await getFastApiData(
@@ -134,7 +128,6 @@ export default function UploadSection() {
             : new TextDecoder().decode(value)
         );
       }
-      console.log("reviseData set successfully!");
     } catch (error) {
       console.error("API Error:", error);
     } finally {
