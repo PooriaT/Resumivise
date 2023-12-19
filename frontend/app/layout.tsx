@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex flex-col justify-between min-h-screen text-black w-screen">
+      <body className="flex flex-col justify-between min-h-screen text-black w-screen overflow-x-hidden">
           <Header/>
           {children}
           <Cta />

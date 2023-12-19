@@ -20,6 +20,7 @@ const Hero = () => {
           </a>
         </div>
         <Image
+          priority={true}
           src="/resume2.jpg"
           width={1200}
           height={1200}

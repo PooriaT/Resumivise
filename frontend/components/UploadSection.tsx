@@ -8,7 +8,6 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 export default function UploadSection() {
-  const [uploadData, setUploadData] = useState<string | null>(null);
   const [jobDescriptionData, setJobDescriptionData] = useState<string>("");
   const [compareData, setCompareData] = useState<string | null>(null);
   const [reviseData, setReviseData] = useState<string | null>(null);
@@ -18,6 +17,7 @@ export default function UploadSection() {
   const [loadingRevise, setLoadingRevise] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [loadingJobDescription, setLoadingJobDescription] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const generateClientId = () => {
     const generatedId = uuidv4(); //UUID
@@ -59,6 +59,29 @@ export default function UploadSection() {
     }
   };
 
+  const handleTextUpload = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    try {
+      setLoadingJobDescription(true);
+      if (jobDescriptionData.trim() === '') {
+        setShowAlert(true);
+        return;
+      }
+      const response: Response = await postFastApiText(
+        "upload_job_description",
+        jobDescriptionData,
+        clientId
+      );
+      setShowAlert(false);
+      setLoadingJobDescription(false);
+      await handleCompareClick();
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+
   const handleCompareClick = async () => {
     try {
       setLoadingCompare(true);
@@ -84,24 +107,6 @@ export default function UploadSection() {
       console.error("API Error:", error);
     } finally {
       setLoadingCompare(false);
-    }
-  };
-
-  const handleTextUpload = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    try {
-      setLoadingJobDescription(true);
-      const response: Response = await postFastApiText(
-        "upload_job_description",
-        jobDescriptionData,
-        clientId
-      );
-      setLoadingJobDescription(false);
-      await handleCompareClick();
-    } catch (error) {
-      console.error("API Error:", error);
     }
   };
 
@@ -174,10 +179,10 @@ export default function UploadSection() {
               disabled={loadingBrowse}
             />
           </label>
-          <p className="mx-auto text-accent text-xs mt-3 text-center">
+          {/* <p className="mx-auto text-accent text-xs mt-3 text-center">
             Remove the confidential information from your resume,
             <br /> such as address, phone number, or email, before uploading!
-          </p>
+          </p> */}
         </div>
 
         {/* paste job description section */}
@@ -198,6 +203,12 @@ export default function UploadSection() {
                 <div>Submit</div>
               )}
             </button>
+            {/* Alert */}
+            {showAlert && (
+              <div className="bg-red-200 text-red-800 p-2 mt-4 rounded-md">
+                <p>Job description field cannot be empty!</p>
+              </div>
+            )}
           </form>
         </div>
 
@@ -206,7 +217,7 @@ export default function UploadSection() {
           <div className="flex flex-col justify-center items-center bg-secondary w-full overflow-auto pt-12">
             <h1 className="text-4xl font-bold mb-12">Results</h1>
             <div className="lg:w-2/3 w-4/5 overflow-auto border-2 rounded-2xl lg:p-10 p-4 lg:text-md text-xs">
-              <pre>{compareData}</pre>
+              <pre className="whitespace-pre-wrap">{compareData}</pre>
             </div>
             <button
               onClick={handleReviseClick}
@@ -225,7 +236,7 @@ export default function UploadSection() {
           <div className="flex flex-col justify-center items-center bg-secondary w-full pb-12">
             <h1 className="text-4xl font-bold mb-12">Revised resume</h1>
             <div className="lg:w-2/3 w-4/5 overflow-auto border-2 rounded-2xl lg:p-10 p-4 lg:text-md text-xs">
-              <pre>{reviseData}</pre>
+              <pre className="whitespace-pre-wrap">{reviseData}</pre>
             </div>
           </div>
         )}
