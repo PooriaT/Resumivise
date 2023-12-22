@@ -1,19 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { pooria, alja } from "@/src/helpers/authorsData";
 
 function Support() {
-  const pooria = {
-    email: "pooria@duck.com",
-    linkedin: "https://www.linkedin.com/in/pooriataghdiri/",
-    github: "https://github.com/PooriaT",
-    buyMeACoffee: "https://www.buymeacoffee.com/pooria7",
-  };
-
-  const alja = {
-    email: "alja.cekada@gmail.com",
-    linkedin: "https://www.linkedin.com/in/alja-cekada/",
-    github: "https://github.com/alchuu00",
-  };
   return (
     <div className="flex-grow bg-secondary lg:px-28 md:px-16 px-6 w-screen">
       <section className="mb-8">
@@ -44,6 +33,7 @@ function Support() {
         </p>
         <h2 className="text-3xl font-bold my-6 text-center">Contact Us</h2>
         <div className="flex md:flex-row flex-col justify-center gap-6 mb-8">
+
           {/* card 1 */}
           <div className="card md:w-1/3 bg-gray-50 shadow-xl">
             <div className="card-body">
@@ -66,6 +56,7 @@ function Support() {
               </Link>
             </div>
           </div>
+
           {/* card 2 */}
           <div className="card md:w-1/3 bg-gray-50 shadow-xl">
             <div className="card-body">
@@ -79,6 +70,7 @@ function Support() {
               </a>
             </div>
           </div>
+
         </div>
       </section>
     </div>

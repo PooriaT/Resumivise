@@ -1,3 +1,4 @@
+import { alja, pooria } from "@/src/helpers/authorsData";
 import Link from "next/link";
 
 export default function Footer() {
@@ -17,11 +18,11 @@ export default function Footer() {
       <aside>
         <p>
           &copy; 2023 Made with 💙 by{" "}
-          <Link className="hover:underline" target="_blank" href="https://www.linkedin.com/in/pooriataghdiri/">
+          <Link className="hover:underline" target="_blank" href={pooria.linkedin}>
             Pooria
           </Link>
           {" "}&{" "}
-          <Link className="hover:underline" target="_blank" href="https://www.linkedin.com/in/alja-cekada/">
+          <Link className="hover:underline" target="_blank" href={alja.linkedin}>
             Alja
           </Link>
         </p>
