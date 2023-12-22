@@ -5,7 +5,7 @@ import {
   postFastApiFile,
   postFastApiText,
 } from "@/src/utils/fastapiCall";
-import { v4 as uuidv4 } from "uuid";
+import generateClientId from "@/src/helpers/generateClientId";
 
 export default function UploadSection() {
   const [jobDescriptionData, setJobDescriptionData] = useState<string>("");
@@ -18,12 +18,6 @@ export default function UploadSection() {
   const [fileName, setFileName] = useState<string | null>(null);
   const [loadingJobDescription, setLoadingJobDescription] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-
-  const generateClientId = () => {
-    const generatedId = uuidv4(); //UUID
-    setClientId(generatedId);
-    return generatedId;
-  };
 
   useEffect(() => {
     const storedClientId = localStorage.getItem("clientId");
