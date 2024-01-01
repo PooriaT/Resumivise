@@ -125,5 +125,5 @@ cython_debug/
 
 
 # Static folder in Backendside
-static/*
-!static/resume/dummy.txt
+storage/*
+!storage/files/resume/dummy.txt

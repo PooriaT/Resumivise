@@ -48,3 +48,8 @@ def revise_resume(client_id: str = Query(...)):
     return StreamingResponse(tailored_resume_data_stream,
                                media_type='text/event-stream') # This for Streaming
     # return json.dumps(tailored_resume_data_stream)
+
+
+@app.get("/api/download_resume")
+def download_resume(client_id: str = Query(...)):
+    pass

@@ -15,5 +15,5 @@ def find_files_created_prior_to_today(directory):
 
 
 if __name__ == '__main__':
-    directory_to_search = '../static/resume'
+    directory_to_search = '../../storage/files/resume'
     find_files_created_prior_to_today(directory_to_search)

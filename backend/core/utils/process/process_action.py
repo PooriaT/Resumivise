@@ -1,9 +1,10 @@
 import os
 import json
 from core.api.gptApi import GptApi
-from core.utils.services.reading_file import reading_data
+from core.utils.services.file_processor import reading_data, writing_data
 
-FILE_PATH = './static/resume/'
+STORAGE_FILE_PATH = './core/storage/files/resume/'
+PUBLIC_FILE_PATH = './core/public/files/resume/'
 
 class GptClientWrapper:
     def __init__(self):
@@ -24,25 +25,25 @@ def get_file_extension(filename):
     return filename.split('.')[-1]
 
 def read_file(file_name, file_type):
-    with open(f"{FILE_PATH}{file_name}.{file_type}") as file:
+    with open(f"{STORAGE_FILE_PATH}{file_name}.{file_type}") as file:
         return file.read()
 
 def process_upload_resume(filename, file_content, client_id):
     file_extension = get_file_extension(filename).lower()
     if file_extension in ['docx', 'pdf']:
         file_name = name_generator('uploaded_resume',client_id)
-        with open(f"{FILE_PATH}{file_name}.{file_extension}", 'wb') as f:
+        with open(f"{STORAGE_FILE_PATH}{file_name}.{file_extension}", 'wb') as f:
             f.write(file_content.read())
-        data = reading_data(f"{FILE_PATH}{file_name}.{file_extension}")
+        data = reading_data(f"{STORAGE_FILE_PATH}{file_name}.{file_extension}")
         gpt_client = get_client()
         extracted_resume_data = gpt_client.extract_info_from_resume(data['text'])
 
         try:
             extracted_resume_data = json.loads(extracted_resume_data)
             extracted_resume_filename = name_generator('extracted_resume',client_id)
-            with open(f"{FILE_PATH}{extracted_resume_filename}.json", 'w') as file:
+            with open(f"{STORAGE_FILE_PATH}{extracted_resume_filename}.json", 'w') as file:
                 json.dump(extracted_resume_data, file)
-            os.remove(f"{FILE_PATH}{file_name}.{file_extension}")
+            os.remove(f"{STORAGE_FILE_PATH}{file_name}.{file_extension}")
             return 'successfully uploaded'
         except json.JSONDecodeError as e:
             return f'Error decoding JSON: {e}'
@@ -52,7 +53,7 @@ def process_upload_resume(filename, file_content, client_id):
 def process_upload_job_description(job_description_data, client_id):
     try:
         job_description_filename = name_generator('job_description',client_id)
-        with open(f"{FILE_PATH}{job_description_filename}.txt", 'w') as file:
+        with open(f"{STORAGE_FILE_PATH}{job_description_filename}.txt", 'w') as file:
             file.write(job_description_data)
         return "Job description received successfully"
     except Exception as e:
@@ -73,17 +74,22 @@ def process_compare(client_id):
     except FileNotFoundError:
         return iter("Something is wrong. Resume or job description not found!!")
 
-def process_revise(client_id):
+async def process_revise(client_id):
     gpt_client = get_client()
     extracted_resume_filename = name_generator('extracted_resume',client_id)
     job_description_filename = name_generator('job_description',client_id)
+    resume_revised_docx_filename = name_generator('resume_revised',client_id)
+    os.makedirs(os.path.dirname(PUBLIC_FILE_PATH), exist_ok=True)
 
     try:
         extracted_resume_data = read_file(extracted_resume_filename, 'json')
         job_description_data = read_file(job_description_filename, 'txt')
-        return gpt_client.align_resume_info_with_job_description(
+        response =  gpt_client.align_resume_info_with_job_description(
             extracted_resume_data,
             job_description_data
         )
+
+        await writing_data(f"{PUBLIC_FILE_PATH}{resume_revised_docx_filename}.docx", response)
+        return response
     except FileNotFoundError:
         return iter("Something is wrong. Resume or job description not found!!")

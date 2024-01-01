@@ -12,3 +12,11 @@ def reading_data(file_path):
     else:
         data = json.loads('File type not supported')
     return data
+
+
+def writing_data(file_path, data):
+    for chunk in data.iter_content(None, decode_unicode=True):
+        if chunk:
+            text += f"{chunk} "
+    json_data = json.dumps(text)
+    write_docx(file_path, json_data)
