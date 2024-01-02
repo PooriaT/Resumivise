@@ -12,3 +12,12 @@ def reading_data(file_path):
     else:
         data = json.loads('File type not supported')
     return data
+
+
+def writing_data(file_path, data):
+    json_data = json.loads(data)
+    write_docx(file_path, json_data)
+    if os.path.exists(file_path):
+        return 'successfully uploaded'
+    else:
+        return 'failed to upload'

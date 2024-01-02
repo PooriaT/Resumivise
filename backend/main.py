@@ -1,9 +1,10 @@
+import os
 import json
 import uvicorn
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from core.utils.process.process_action import process_upload_resume, process_upload_job_description, process_compare, process_revise
+from core.utils.process.process_action import process_upload_resume, process_upload_job_description, process_compare, process_revise, process_download_resume
 # uvicorn.run('main:app', host="0.0.0.0", port=8000, workers=4)
 
 app = FastAPI()
@@ -48,3 +49,17 @@ def revise_resume(client_id: str = Query(...)):
     return StreamingResponse(tailored_resume_data_stream,
                                media_type='text/event-stream') # This for Streaming
     # return json.dumps(tailored_resume_data_stream)
+
+
+@app.post("/api/download_resume")
+def download_resume(data: dict):
+    client_id=data.get('client_id', '')
+    revised_resume = data['text']
+    file_path, message = process_download_resume(revised_resume, client_id)
+    if os.path.exists(file_path):
+        return FileResponse(file_path,
+                            media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            filename=file_path
+                            )
+    else:
+        return {"message": message}

@@ -1,5 +1,6 @@
 from docx import Document
 import json
+import re
 
 def read_docx(file):
     doc = Document(file)
@@ -9,12 +10,35 @@ def read_docx(file):
 
     data = json.dumps({'text': '\n'.join(header + text)})
     return data
-    
-# NEED TO BE REVISED
-def write_docx(file, data):
+ 
+def write_docx(filename, data):
     doc = Document()
+    section = doc.sections[0]
+    header = section.header
 
-    doc.add_heading('JSON Data', level=1)
-    doc.add_paragraph(json.dumps(data, indent=4))
+    header_text = ""
+    pattern = [r'.*name.*', r'.*phone.*', r'.*location.*', r'.*email.*', r'.*link']
+    combined_pattern = re.compile(fr'{pattern[0]}|{pattern[1]}|{pattern[2]}|{pattern[3]}|{pattern[4]}')
+    for heading, text in data.items():
+        heading = heading.strip()
+        if combined_pattern.match(heading):
+            header_text += f"{text} |"
+        else:
+            doc.add_heading(heading, level=1)
+            if isinstance(text, list):
+                for item in text:
+                    if isinstance(item, dict):
+                        for key, value in item.items():
+                            doc.add_paragraph(f"{key}: {value}")
+                    else:
+                        doc.add_paragraph(str(item))
+            else:
+                if isinstance(text, dict):
+                    for key, value in text.items():
+                        doc.add_paragraph(f"{key}: {value}")
+                else:
+                    doc.add_paragraph(str(text))
+            doc.add_paragraph()
 
-    doc.save(file)
+    header.paragraphs[0].text = header_text
+    doc.save(filename)
