@@ -25,11 +25,12 @@ def get_file_extension(filename):
     return filename.split('.')[-1]
 
 def read_file(file_name, file_type):
-    with open(f"{STORAGE_FILE_PATH}{file_name}.{file_type}") as file:
+    with open(f"{STORAGE_FILE_PATH}{file_name}.{file_type}", encoding='utf-8') as file:
         return file.read()
 
 def process_upload_resume(filename, file_content, client_id):
     file_extension = get_file_extension(filename).lower()
+    os.makedirs(STORAGE_FILE_PATH, exist_ok=True)
     if file_extension in ['docx', 'pdf']:
         file_name = name_generator('uploaded_resume',client_id)
         with open(f"{STORAGE_FILE_PATH}{file_name}.{file_extension}", 'wb') as f:
@@ -41,7 +42,7 @@ def process_upload_resume(filename, file_content, client_id):
         try:
             extracted_resume_data = json.loads(extracted_resume_data)
             extracted_resume_filename = name_generator('extracted_resume',client_id)
-            with open(f"{STORAGE_FILE_PATH}{extracted_resume_filename}.json", 'w') as file:
+            with open(f"{STORAGE_FILE_PATH}{extracted_resume_filename}.json", 'w', encoding='utf-8') as file:
                 json.dump(extracted_resume_data, file)
             os.remove(f"{STORAGE_FILE_PATH}{file_name}.{file_extension}")
             return 'successfully uploaded'
@@ -51,9 +52,10 @@ def process_upload_resume(filename, file_content, client_id):
         return 'Failed to upload'
 
 def process_upload_job_description(job_description_data, client_id):
+    os.makedirs(STORAGE_FILE_PATH, exist_ok=True)
     try:
         job_description_filename = name_generator('job_description',client_id)
-        with open(f"{STORAGE_FILE_PATH}{job_description_filename}.txt", 'w') as file:
+        with open(f"{STORAGE_FILE_PATH}{job_description_filename}.txt", 'w', encoding='utf-8') as file:
             file.write(job_description_data)
         return "Job description received successfully"
     except Exception as e:
@@ -74,22 +76,28 @@ def process_compare(client_id):
     except FileNotFoundError:
         return iter("Something is wrong. Resume or job description not found!!")
 
-async def process_revise(client_id):
+def process_revise(client_id):
     gpt_client = get_client()
-    extracted_resume_filename = name_generator('extracted_resume',client_id)
-    job_description_filename = name_generator('job_description',client_id)
-    resume_revised_docx_filename = name_generator('resume_revised',client_id)
-    os.makedirs(os.path.dirname(PUBLIC_FILE_PATH), exist_ok=True)
+    extracted_resume_filename = name_generator('extracted_resume', client_id)
+    job_description_filename = name_generator('job_description', client_id)
 
     try:
         extracted_resume_data = read_file(extracted_resume_filename, 'json')
         job_description_data = read_file(job_description_filename, 'txt')
-        response =  gpt_client.align_resume_info_with_job_description(
+        return gpt_client.align_resume_info_with_job_description(
             extracted_resume_data,
             job_description_data
         )
-
-        await writing_data(f"{PUBLIC_FILE_PATH}{resume_revised_docx_filename}.docx", response)
-        return response
     except FileNotFoundError:
         return iter("Something is wrong. Resume or job description not found!!")
+
+def process_download_resume(data, client_id):
+    os.makedirs(PUBLIC_FILE_PATH, exist_ok=True)
+    revised_resume_filename = name_generator('revised_resume',client_id)
+    print(data)
+    try:
+        message = writing_data(f"{PUBLIC_FILE_PATH}{revised_resume_filename}.docx", data)
+        return f"{PUBLIC_FILE_PATH}{revised_resume_filename}.docx", message
+    except Exception as e:
+        message = f'Error: {e}'
+        return revised_resume_filename, message

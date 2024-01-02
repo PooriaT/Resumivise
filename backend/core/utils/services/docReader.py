@@ -17,27 +17,28 @@ def write_docx(filename, data):
     header = section.header
 
     header_text = ""
+    pattern = [r'.*name.*', r'.*phone.*', r'.*location.*', r'.*email.*', r'.*link']
+    combined_pattern = re.compile(fr'{pattern[0]}|{pattern[1]}|{pattern[2]}|{pattern[3]}|{pattern[4]}')
     for heading, text in data.items():
-        if heading in ['name', 'phone_number', 'location', 'email'] or re.match(r'.*link', heading):
+        heading = heading.strip()
+        if combined_pattern.match(heading):
             header_text += f"{text} |"
         else:
             doc.add_heading(heading, level=1)
             if isinstance(text, list):
-                text = text[0]
-            if isinstance(text, dict):
-                for key, value in text.items():
-                    doc.add_paragraph(f"{key}: {value}")
+                for item in text:
+                    if isinstance(item, dict):
+                        for key, value in item.items():
+                            doc.add_paragraph(f"{key}: {value}")
+                    else:
+                        doc.add_paragraph(str(item))
             else:
-                doc.add_paragraph(str(text))
+                if isinstance(text, dict):
+                    for key, value in text.items():
+                        doc.add_paragraph(f"{key}: {value}")
+                else:
+                    doc.add_paragraph(str(text))
             doc.add_paragraph()
 
     header.paragraphs[0].text = header_text
     doc.save(filename)
-
-
-# if __name__ == '__main__':
-#     file_name = 'test.docx'
-#     json_filename = "../../../static/extracted_resume.json"
-#     with open(json_filename, 'r', encoding='utf-8') as f:
-#         json_data = json.loads(f.read())
-#     write_docx(file_name, json_data)

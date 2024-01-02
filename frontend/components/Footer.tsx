@@ -16,7 +16,7 @@ export default function Footer() {
       </nav>
       <aside>
         <p>
-          &copy; 2023 Made with 💙 by{" "}
+          &copy; 2024 Made with 💙 by{" "}
           <Link className="hover:underline" target="_blank" href="https://www.linkedin.com/in/pooriataghdiri/">
             Pooria
           </Link>

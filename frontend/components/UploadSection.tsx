@@ -18,6 +18,7 @@ export default function UploadSection() {
   const [fileName, setFileName] = useState<string | null>(null);
   const [loadingJobDescription, setLoadingJobDescription] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [showDownload, setShowDownload] = useState(false);
 
   const generateClientId = () => {
     const generatedId = uuidv4(); //UUID
@@ -116,6 +117,8 @@ export default function UploadSection() {
     event.preventDefault();
     try {
       setLoadingRevise(true);
+      setReviseData("");
+      setShowDownload(false);
       const response: ReadableStream<Uint8Array> = await getFastApiData(
         "revise_resume",
         clientId
@@ -133,10 +136,40 @@ export default function UploadSection() {
             : new TextDecoder().decode(value)
         );
       }
+      setShowDownload(true);
     } catch (error) {
       console.error("API Error:", error);
     } finally {
       setLoadingRevise(false);
+    }
+  };
+
+  const handleDownloadClick = async (
+    reviseData: string,
+  ) => {
+    try {
+      const response: Response = await postFastApiText(
+        "download_resume",
+        reviseData,
+        clientId
+      );
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = "resume.docx";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(downloadUrl);
+        document.body.removeChild(a);
+      } else {
+        console.error("API Error:", response.statusText);
+      }
+      
+    } catch (error) {
+      console.error("API Error:", error);
     }
   };
 
@@ -238,6 +271,17 @@ export default function UploadSection() {
             <div className="lg:w-2/3 w-4/5 overflow-auto border-2 rounded-2xl lg:p-10 p-4 lg:text-md text-xs">
               <pre className="whitespace-pre-wrap">{reviseData}</pre>
             </div>
+            {showDownload && (
+              <button
+                onClick={() => handleDownloadClick(reviseData)}
+                className="btn text-secondary hover:bg-accent bg-primary my-12">
+                {loadingRevise ? (
+                  <span className="loading loading-dots loading-md"></span>
+                ) : (
+                  <div>Download the resume</div>
+                )}
+              </button>
+            )}
           </div>
         )}
       </div>

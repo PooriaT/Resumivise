@@ -15,8 +15,9 @@ def reading_data(file_path):
 
 
 def writing_data(file_path, data):
-    for chunk in data.iter_content(None, decode_unicode=True):
-        if chunk:
-            text += f"{chunk} "
-    json_data = json.dumps(text)
+    json_data = json.loads(data)
     write_docx(file_path, json_data)
+    if os.path.exists(file_path):
+        return 'successfully uploaded'
+    else:
+        return 'failed to upload'
