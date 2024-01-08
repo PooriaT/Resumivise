@@ -39,15 +39,31 @@ function Support() {
           a vital part of our journey.
         </p>
         <p className="p-2">
-          And if you want to support us even more, consider buying Pooria a book
+          And if you want to support us even more, consider buying us a book
           or a coffee!
+          <Link href="https://www.buymeacoffee.com/pooria7" target="_blank">
+          <Image
+            className="py-4 lg:w-52"
+            src="/buyMeACoffeeBtn.png"
+            alt="Buy Me A Coffee"
+            width={150}
+            height={150}
+          />
+        </Link>
         </p>
-        <h2 className="text-3xl font-bold my-6 text-center">Contact Us</h2>
+        <h2 className="text-3xl font-bold my-6 text-center">Our Team</h2>
         <div className="flex md:flex-row flex-col justify-center gap-6 mb-8">
           {/* card 1 */}
           <div className="card md:w-1/3 bg-gray-50 shadow-xl">
             <div className="card-body">
-              <h2 className="card-title">Pooria Taghdiri</h2>
+              <h2 className="card-title">
+                <img
+                  src="/linkedin_profile/pooria_profile.jpg"
+                  alt="Pooria Taghdiri"
+                  className="inline-block mr-2 h-20 w-20 rounded-full object-cover"
+                />
+                Pooria Taghdiri
+              </h2>
               <a href={pooria.email}><span className="font-bold">Email:</span> {pooria.email}</a>
               <a href={pooria.linkedin} target="_blank">
               <span className="font-bold">LinkedIn:</span> pooriataghdiri
@@ -55,21 +71,19 @@ function Support() {
               <a href={pooria.github} target="_blank">
               <span className="font-bold">Github:</span> PooriaT
               </a>
-              <Link href="https://www.buymeacoffee.com/pooria7" target="_blank">
-                <Image
-                  className="py-4 lg:w-52"
-                  src="/buyMeACoffeeBtn.png"
-                  alt="Buy Me A Coffee"
-                  width={150}
-                  height={150}
-                />
-              </Link>
             </div>
           </div>
           {/* card 2 */}
           <div className="card md:w-1/3 bg-gray-50 shadow-xl">
             <div className="card-body">
-              <h2 className="card-title">Alja Cekada</h2>
+              <h2 className="card-title">
+                <img
+                  src="/linkedin_profile/alja_profile.jpg"
+                  alt="Alja Cekada"
+                  className="inline-block mr-2 h-20 w-20 rounded-full object-cover"
+                />
+                Alja Cekada
+              </h2>
               <a href={alja.email}><span className="font-bold">Email:</span> {alja.email}</a>
               <a href={alja.linkedin} target="_blank">
               <span className="font-bold">LinkedIn:</span> aljacekada
