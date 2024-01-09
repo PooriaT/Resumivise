@@ -64,13 +64,17 @@ function Support() {
                 />
                 Pooria Taghdiri
               </h2>
-              <a href={pooria.email}><span className="font-bold">Email:</span> {pooria.email}</a>
-              <a href={pooria.linkedin} target="_blank">
-              <span className="font-bold">LinkedIn:</span> pooriataghdiri
-              </a>
-              <a href={pooria.github} target="_blank">
-              <span className="font-bold">Github:</span> PooriaT
-              </a>
+              <div className="card-actions justify-center" >
+                <a href={`mailto:${pooria.email}`} target="_blank">
+                  <img src="/icons/email.svg" alt="Email Icon" className="inline-block mr-2 h-10 w-10" />
+                </a>
+                <a href={pooria.linkedin} target="_blank">
+                  <img src="/icons/linkedin.svg" alt="LinkedIn Icon" className="inline-block mr-2 h-10 w-10" /> 
+                </a>
+                <a href={pooria.github} target="_blank">
+                  <img src="/icons/github.svg" alt="GitHub Icon" className="inline-block mr-2 h-10 w-10" />
+                </a>
+              </div>
             </div>
           </div>
           {/* card 2 */}
@@ -84,13 +88,17 @@ function Support() {
                 />
                 Alja Cekada
               </h2>
-              <a href={alja.email}><span className="font-bold">Email:</span> {alja.email}</a>
-              <a href={alja.linkedin} target="_blank">
-              <span className="font-bold">LinkedIn:</span> aljacekada
-              </a>
-              <a href={alja.github} target="_blank">
-              <span className="font-bold">Github:</span> Alchuu00
-              </a>
+              <div className="card-actions justify-center" >
+                <a href={`mailto:${alja.email}`} target="_blank">
+                  <img src="/icons/email.svg" alt="Email Icon" className="inline-block mr-2 h-10 w-10" />
+                </a>
+                <a href={alja.linkedin} target="_blank">
+                  <img src="/icons/linkedin.svg" alt="LinkedIn Icon" className="inline-block mr-2 h-10 w-10" /> 
+                </a>
+                <a href={alja.github} target="_blank">
+                  <img src="/icons/github.svg" alt="GitHub Icon" className="inline-block mr-2 h-10 w-10" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
